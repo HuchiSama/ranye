@@ -1,0 +1,211 @@
+
+ body{
+  background: #B8E5F8;
+  background-image: url(../images/login-bg.png);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.main{
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  background: none;
+}
+
+.logo{
+  background:none;
+  width: 116px;
+  height: 74px;
+  margin: 45px auto;
+}
+.outer{
+  position: absolute;
+  width: 400px;
+  /* height: 450px; */
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding: 16px 25px;
+  border-radius: 10px 10px 0 0;
+  background: white;
+}
+
+.login-text{
+  display: block;
+  width: 64px;
+  height: 52px;
+  font-weight: 1000;
+  line-height: 42px;
+  color: black;
+  cursor: pointer;
+  border-bottom: 2px #0884FF solid;
+}
+
+.outer input{
+  border: none;
+  color: #641A1A;
+  font-size: 14px;
+  width: 100%;
+  height: 50px;
+  padding: 5px 0px;
+  border-bottom: 1px #EBEBEB solid;
+}
+.outer input::placeholder{
+  color: #8590A6;
+  font-size: 14px;
+}
+.outer span a{
+  font-size: 14px;
+  color:#859EC5 ;
+  margin: 20px 0 0 0;
+}
+.outer a.zhuce{
+  float: left;
+  color: #175199;
+}
+.outer a.lossPas{
+  float: right;
+}
+.outer a:hover{
+  color: #808080;
+}
+
+
+.submit{
+  margin: 30px 0 20px 0 ;
+  background: #0084FF;
+  width: 350px;
+  height: 36px;
+  font-size: 14px;
+  border: none;
+  color: white;
+  text-align: center;
+  line-height: 36px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.submit:hover{
+  background: #0077E6;
+}
+.submit:focus{
+  outline:none;
+}
+
+.xieyi{
+  display: block;
+  /* text-align: center; */
+  font-size: 10px;
+  color: #8590A6;
+}
+
+.xieyi+hr{
+  margin: 15px 0 0 0;
+  border-top: none;
+  border-color: #EBEBEB;
+}
+
+.other-Account{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0 0 0;
+  color: #8590A6;
+  font-size: 14px;
+}
+
+.footer{
+  position: absolute;
+  bottom:-40px;
+  margin: 20px 0;
+  background: none;
+  width: 100%;
+  text-align: center;
+}
+.footer span{
+  font-size: 12px;
+  background: none;
+  color: white;
+}
+
+.signin-footer{
+  bottom:-72px;
+}
+
+
+.sub-error{
+  background: none;
+  display: block;
+  position: absolute;
+  color: red;
+  width: 350px;
+  bottom: 160px;
+  font-size: 14px;
+  text-align: center;
+}
+.outer a.lossPas-zhuce{
+  color: red;
+}
+.form label{
+  position: relative;
+}
+.form i.flag{
+  background: none;
+  font-size: 22px;
+  position: absolute;
+  color: white;
+  top: -5px;
+  right: -2px;
+}
+
+.success{
+  width: 360px;
+  height: 200px;
+  position: absolute;
+  left:0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin:auto;
+  opacity:1; 
+  transition: .2s;
+  text-align: center;
+  background: white;
+}
+.success img{
+  width: 277px;
+  height: 201px;
+  margin: 0 auto;
+}
+.success .img-cslc{
+  width: 198px;
+  height: 144px;
+  transition: .3s;
+}
+.suc-transition{
+  opacity:0 ; 
+  top: 200px;
+}
+.success-bg{
+  position: absolute;
+  width: 100%;
+  top: 0;
+  height: 107%;
+  background: #3a3a3a9e;
+}
+.success label{
+  opacity: 0;
+}
+.success span{
+  color: #45CB62;
+}
+.outer input.captcha-input{
+  width:50%;
+  float: left;
+  margin :20px 0 0 0;
+}
+.captcha{
+  float: right;
+  margin: 55px -77px 0 0;
+}

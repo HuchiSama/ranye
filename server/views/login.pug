@@ -1,0 +1,59 @@
+extends basic_layout.pug
+block head-content
+  link(rel="stylesheet", href="./css/login.css")
+block content
+  div(class="main")
+    img(src="./images/login-top.png", alt="" class="logo")
+    div(class="outer")
+      form(action="./login" method="post")
+        label(class="login-text") 用户登陆
+        input(type="text"  placeholder='请输入账号或邮箱' class="name" name="name")
+        input(type="password" placeholder='密码' class="password" name="password")
+        span 
+          a(href="./sign_up" class="zhuce") 注册新用户
+        span  
+          a(href="" class="lossPas") 忘记密码?
+        <img src=/captcha class="captcha"/>
+        input(type="text" placeholder='请输入验证码' class="captcha-input" name="captcha")
+        span(class="sub-error")
+        button(type="submit" class="submit") 登陆
+        script.
+          $('form').on('submit',(e)=>{
+            e.preventDefault()
+            let form = {
+              name:$('.name').val(),
+              password:$('.password').val(),
+              captcha:$('.captcha-input').val(),
+            }
+            $.post('./login',form)
+            .then(item=>{
+              console.log(item)
+              if(item == '0'){
+                $('.sub-error').text('用户名或密码错误，请重新输入') 
+              }else if((item == '1')){
+                location.href = '/'
+              }else{
+                $('.sub-error').text('验证码错误，请重新输入') 
+                $('.captcha').click()
+              }
+
+            }).catch(console.log)
+          })
+          $('input').on('focus',(e)=>{
+            $('.sub-error').text("") 
+          })
+          $('.captcha').on('click',function(e){
+            $.get('/captcha').then(url=>{
+              $('.captcha').attr('src',`/captcha?t=${Date.now()}`)
+            })
+          })
+      span(class="xieyi") 未注册手机验证后自动登录，注册即代表同意《知乎协议》《隐私保护指引》
+      hr
+      div(class="other-Account")
+        span 其他账号登陆
+        span 广告位招租
+        span 广告位招租
+    div(class="footer signin-footer")
+      span © 2020 知乎京 ICP 证 110745 号京 ICP 备 13052560 号 - 1京公网安备 11010802010035 号出版物经营许可证
+      br
+      span 侵权举报网上有害信息举报专区儿童色情信息举报专区违法和不良信息举报：010-82716601        

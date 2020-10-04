@@ -1,0 +1,383 @@
+@import url("//unpkg.com/element-ui@2.13.2/lib/theme-chalk/index.css");
+
+
+
+li{
+  list-style: none;
+}
+nav{
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  border: 1px #E8E8E8 solid;
+  border-left:none ;
+  border-right:none ;
+  min-width: 1030px;
+  box-shadow: 0px 3px 3px 0px #d4d4d42b;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: white;
+}
+
+.top-nav{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 48px;
+}
+
+ul.home-list {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 48px;
+  min-width: 222px;
+  margin: 0 23px;
+}
+ul.home-list li>a{
+  padding: 0 16px;
+  font-size: 15px;
+  color: #8590A6;
+}
+
+.search-div{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.search-label{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 34px;
+  width: 326px;
+  border:1px  #E8E8E8 solid;
+}
+.search{
+  border: none;
+  height: 28px;
+  width: 320px;
+  font-size: 14px;
+}
+.bi-search{
+  width: 18px;
+  height: 18px;
+  color:#9AA3B5 ;
+}
+.question{
+  display: block;
+  margin-left: 15px;
+  width: 58px;
+  height: 36px;
+  color: white;
+  border-radius: 5px;
+  line-height: 34px;
+  background: #0084FF;
+}
+.question:hover{
+  background: #0077E6;
+}
+
+
+.persen-list{
+  position: relative;
+  width: 268px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.persen-list svg{
+  width: 22px;
+  height: 22px;
+  margin: 0 40px 0 0;
+  color: #76839B;
+}
+svg.bi-person-circle{
+  margin-right: 0;
+}
+
+
+
+/*body*/
+
+.body-container{
+  margin: 50px 0 0 0;
+  min-width: 1030px;
+  /* height: 100%; */
+  background:rgb(246,246,246);
+  display: flex;
+  padding-top: 10px;
+  justify-content: center;
+}
+
+/*帖子列表*/
+.invitation{
+  background: white;
+  width: 694px;
+  height: 100%;
+  padding:20px 20px ;
+  box-shadow: 0 0 5px 0px #dcdcdcad;
+}
+.toolbar{
+  margin-left:10px ;
+  width: 296px;
+  height: 1000px;
+  /* box-shadow: 0 0 5px 0px #dcdcdcad; */
+}
+
+.userAvatar{
+  width:30px;
+  height:30px;
+  margin-right: 15px;
+  background-position: 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.user-date{
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.post-username{
+  color: #444444;
+  font-size: 16px;
+}
+.post-time{
+  color: #8590A6;
+  font-size: 12px;
+}
+
+.posts li{
+  max-height: 285px;
+  border-bottom: 1px #ececec solid;
+}
+.posts li .post-title{
+  display: block;
+  font-size: 18px;
+  color: #1A1A1A;
+  font-weight: 600;
+}
+.posts li .post-title:hover{
+  color: #175199;
+}
+.posts li p{
+  margin: 10px 0;
+}
+.posts li p a{
+  color: #646464;
+  font-size: 16px;
+}
+.posts li p a:hover{
+  color: #627799;
+}
+
+/*toolbar*/
+.toolbar{
+  background: #F6F6F6;
+}
+.toolbar-user-data{
+  padding: 15px;
+  width: 100%;
+  background: white;
+  box-shadow: 0 0 5px 0px #dcdcdcad;
+}
+.toolbar-user-data span{
+  font-size: 14px;
+  color: #8590A6;
+}
+a.denglu-user{
+  font-size: 14px;
+  color: #0E88EB;
+}
+ a.dengchu{
+  font-size:inherit;
+  color: #175199;
+  float: right;
+  border-bottom: 1px #175199 solid;
+}
+a.dengchu:hover{
+  color: #0084FF;
+  border-color:#0084FF ;
+}
+
+/*user-info*/
+.user-info{
+  margin: 10px 0;
+  border-top: 1px #e8e8e8 solid;
+}
+.user-avatar{
+  position: relative;
+  cursor: pointer;
+  margin: 20px auto;
+  display: block;
+  width: 150px;
+  height: 150px;
+  background-position: 50%;
+  /* border-radius: 50%; */
+  border: 5px white solid;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background-position: -15px 0; */
+  box-shadow: #888888 0 0 2px;
+}
+.user-avatar i{
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  background:white;
+}
+.user-info span{
+  display: inline-block;
+  font-size: 14px;
+  color:#8590A6 ;
+}
+.user-sign{
+  color:#888888 ;
+  display: flex;
+  text-align: center;
+  margin-top: 10px;
+}
+.user-sign >.el-icon-edit{
+  display: inline-block;
+  width: 30px;
+  /* margin-right: 12px; */
+  cursor: pointer;
+}
+/* .user-sign:hover i{
+  display: inline;
+} */
+.user-sign span:first-child{
+  white-space: nowrap;
+  width: 45px;
+}
+
+.user-sign-text:focus{
+  outline: none;
+  border: 1px #8590A6 solid;
+}
+.user-bar{
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+.user-bar li{
+  border: 1px #f3f0f0 solid;
+  flex-grow: 1;
+  text-align: center;
+  cursor: pointer;
+}
+.user-bar li span{
+  color: #8590A6;
+  background: none;
+}
+.user-bar li:hover,.user-bar li:hover span{
+  background: #0084FF;
+  color: white;
+}
+
+
+.recommend{
+  background: white;
+  margin-top: 10px;
+  /* height: 100%; */
+  padding: 15px;
+  box-shadow: 0 0 5px 0px #dcdcdcad;
+}
+.recommend h3{
+  color: #969696;
+  font-weight: 800;
+  padding: 0 0 10px 0;
+  border-bottom: 1px #E8E8E8 solid;
+}
+
+.recommend-list li{
+  height: 50px;
+  padding: 10px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;  
+  border-bottom:1px #E8E8E8 solid; */
+}
+.recommend-list li:hover{
+  background: #F6F6F6;
+}
+.recommend-list li a{
+  color: #646464;
+  background: none;
+  line-height: 25px;
+}
+
+
+.footer-bar{
+  padding: 15px;
+  background: none;
+  margin-top:20px ;
+}
+
+.footer-bar p{
+  background: none;
+  border-top: 1px #E8E8E8 solid ;
+  padding-top: 15px;
+  color: #a7a7a7;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+
+/**/
+.pull-down .flag{
+  display: block;
+  height: 25px ;
+  width:40px;
+  position: absolute;
+  background: none;
+  z-index: 90;
+  top: -25px;
+  left: 40px;
+  overflow: hidden;
+}
+.pull-down .flag i{
+  display: block;
+  height: 40px ;
+  width:40px;
+  position: absolute;
+  box-shadow:0 0 5px 0 #aba8a8;
+  background: white;
+  z-index: 90;
+  top: 22px;
+  transform: rotate(45deg);
+  border:1px #ebebeb solid;
+}
+.pull-down{
+  display: none;
+  top: 45px;
+  right: -50px;
+  position: absolute;
+  width: 120px;
+  padding: 10px 0;
+  box-shadow:0 0 5px 0 #aba8a8;
+  background: white;
+}
+.pull-down ul li{
+  cursor: pointer;
+  padding: 8px 10px;
+  text-align: left;
+  color: #76839B;
+  font-size: 14px;
+}
+.pull-down ul li i{
+  margin-right: 8px;
+  background: none;
+}
+.pull-down ul li:hover{
+  background: #F6F6F6;
+}

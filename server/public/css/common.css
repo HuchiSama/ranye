@@ -1,0 +1,29 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font: 16px -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif ;
+  /* background: white; */
+}
+ul  li{
+  list-style: none;
+}
+img{
+  display:block;
+}
+
+a{
+  text-decoration: none;
+}
+
+input{
+  outline: none;
+  border: 1px #E8E8E8 solid;
+  border-radius: 2px;
+}
+input::-webkit-search-cancel-button{
+  display: none;
+}
+input[type=search]::-ms-clear{
+  display: none;
+}

@@ -1,0 +1,171 @@
+extends basic_layout.pug 
+block head-content
+  link(rel="stylesheet", href="./css/home.css")
+  link(rel="stylesheet", href="./css/questionDiv.css")
+  <script src="//unpkg.com/element-ui@2.13.2/lib/index.js"></script>
+block header
+  nav
+    div(class="top-nav")
+      a(href="./" class="home-logo")
+        img(src="./images/icon.png", alt="B 呼")
+      ul(class="home-list")
+        li 
+          a(href="/") 首页
+        li 
+          a(href="/") 发现
+        li 
+          a(href="/") 等你来答
+      div(class="search-div")
+        label(for="" class="search-label")
+          input(type="search", name="search" class="search")
+          <svg viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+            <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+          </svg>
+        input(type="button" value='发帖' class="question")
+        script.
+          $('.question').on('click',(e)=>{
+            let questionDiv = $(`
+            <label class="clear-qus">x</label>
+            <div id="questionDiv">
+              <div class="question-outer">
+                <div class="header">
+                  <input type="text" id="fileName" placeholder="请输入标题" name="title">
+                </div>
+                <section>
+                  <div class="neirong" contenteditable name="content"></div>
+                </section>
+                <label for="" class="submit">确认发帖</label>
+              <div>
+            </div>`)
+            $('body').append(questionDiv)
+            $('.clear-qus').on('click',(e)=>{
+              $('#questionDiv').remove()
+              $('.clear-qus').remove()
+            })
+            $('.submit').on('click',(e)=>{
+              let subMsg = {
+                title:$('.header input').val(),
+                content:$('.neirong').text()
+              }
+              $.post('/home_Page/',subMsg)
+                .then(data=>{
+                  console.log(data)
+                  location.href = '/'
+                })
+            })
+          })
+
+      ul(class="persen-list")
+        li
+          <svg  viewBox="0 0 16 16" class="bi bi-envelope-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z"/>
+          </svg>
+        li  
+          <svg  viewBox="0 0 16 16" class="bi bi-chat-square-dots-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2V2zm5 4a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+          </svg>
+        li(class="user-list")
+          <svg viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+          </svg>
+          div(class="pull-down")
+            span(class="flag")  <i></i>
+            ul
+              li <i class="el-icon-user"></i>我的首页
+              li <i class="el-icon-edit"></i>编辑资料
+              li( class="dengchu") <i class="el-icon-switch-button"></i>退出
+        script.
+          $('.user-list').on('click',function(e){
+            e.stopPropagation()
+            $('.pull-down').css('display','block')
+            $('body').one('click',()=>{
+              console.log('body')
+              $('.pull-down').css('display','none')
+            })
+          })
+  div(class="body-container")
+    div(class="invitation")
+      ul(class="posts")
+        each post in posts
+          li
+            div(class='user-date')
+              img(style=`background-image:url(${post.avatar})`, alt="" class="userAvatar")
+              span(class="post-username")=post.name + "  , "
+                span(class="post-time")=post.createdAt
+            a(href=`/post-page/${post.postId}` class="post-title")= post.title
+            p(class="post-content")
+              a(href="")= post.content
+    div(class="toolbar")
+      div(class="toolbar-user-data")
+        if(cookieUser)
+          span 欢迎用户  
+            a(href="/" class="denglu-user")=cookieUser
+            a(href="" class="dengchu") 登出
+            script.
+              $('.dengchu').on('click',(e)=>{
+                e.preventDefault()
+                $.get('/clearCookie/')
+                .then(val=> location.href = '/login')
+                .catch(e=>{
+                  alert('操作失败：' + e)
+                })
+              })
+        else
+          span 当前处于未登录状态 
+            a(href="/login" class="dengchu") 立即登录
+        div(class="user-info")
+          if(cookieUser)
+            div(class="user-avatar" style=`background-image:url(${user.avatar})`) <i class="el-icon-refresh switch"></i><input type="file", name="avatar" style="display:none;">
+          else
+            div(class="user-avatar" style=`background-image:url('/images/default.jpg')`)
+          div(class="user-sign")
+            //- span 签名： 
+            <i class="el-icon-edit"> :</i>
+            if(cookieUser) 
+              span(class="user-sign-text") #{user.sign} 
+              script.
+                // 修改签名
+                $('.el-icon-edit').on('click',function(e){
+                  e.stopPropagation()
+                  $('.user-sign-text').attr('contenteditable','true').focus()
+                  $('.user-sign-text').one('blur',()=>{
+                    $('.user-sign-text').attr('contenteditable','false')
+                    let user_sign = $('.user-sign-text').text()
+                    $.post('/sign-edit/',{user_sign}).then()
+                  })
+                })
+                //切换头像
+                $('.switch').on('click',function(e){
+                  $('[name="avatar"]').click()
+                })
+                $('[name="avatar"]').on('change',function(e){
+
+                  let data = new FormData()
+                  data.append('name',$('[name="avatar"]').val())
+                  data.append('avatar',$('[name="avatar"]')[0].files[0])
+
+                  $.ajax('/user-avatar/',{
+                    method:'POST',
+                    data:data,
+                    processData:false,
+                    contentType:false,
+                  }).then(data=>{
+                    alert('图像更换成功，刷新生效')
+                  })
+                })
+            else  
+              span 当前还未登录，赶快前往登录吧！
+          ul(class="user-bar") 
+            li <span>我的动态</span>
+            li <span>收藏</span>
+            li <span>关注</span>
+      div(class="recommend")
+        h3() 热门问题
+        ul(class="recommend-list")
+          each item in recommend
+            li <a href=/post-page/#{item.postId} title='#{item.title}'>#{item.title}</a>
+      div(class="footer-bar")
+        p 刘看山知乎指南知乎协议知乎隐私保护指引 <br/>应用工作申请开通知乎机构号<br/>侵权举报网上有害信息举报专区<br/>京 ICP 证 110745 号<br/>京 ICP 备 13052560 号 - 1<br/>京公网安备 11010802010035 号<br/>互联网药品信息服务资格证书<br/>（京）- 非经营性 - 2017 - 0067违法和不良信息举报：010-82716601<br/> 儿童色情信息举报专区<br/>证照中心<br/>联系我们 © 2020 知乎

@@ -1,6 +1,7 @@
 .App {
-  text-align: center;
-}
+  /* text-align: center; */
+  height: 100%;
+}/*
 
 .App-logo {
   height: 40vmin;
@@ -35,4 +36,36 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+*/
+.recommend::-webkit-scrollbar {
+  width: 0;
+}
+a{
+  text-decoration: none;
+  /* color: inherit !important;  */
+}
+input{
+  outline: none;
+  border: none;
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box !important;
+}
+html{
+  height:100%;
+  /* line-height: normal !important; */
+}
+body{
+  height: 100%;
+  line-height: normal !important;
+}
+#root{
+  height: 100%;
+} 
+ul{
+  /* margin: 0 !important; */
 }

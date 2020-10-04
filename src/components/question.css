@@ -1,0 +1,86 @@
+#questionDiv{
+  position: fixed;
+  top: 0;
+  z-index: 9;
+  /* padding: 0 30px; */
+  height: 120%;
+  width: 100%;
+  background: rgba(101, 101, 101, 0.66);
+}
+.question-outer{
+  position: absolute;
+  top: 100px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 650px;
+  min-height: 280px;
+  padding: 10px 20px;
+  background: white;
+}
+.header {
+  display: flex;
+  align-items: center;
+  margin: 20px auto;
+  min-width: 500px;
+  max-width: 685px;
+}
+
+.header input {
+  padding: 0 10px;
+  width: 100%;
+  height: 30px;
+  border-bottom:1px #E8E8E8 solid
+}
+
+.header input:focus {
+  outline: none
+}
+
+.header input::placeholder {
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.neirong {
+  padding: 15px;
+  margin: 0 0 10px 0;
+  height: 340px;
+  width: 100%;
+  outline: none;
+  border: none;
+  overflow-y: scroll;
+  background: white;
+  text-align: start;
+  box-shadow:inset #c3c3c3bd 0 0px 8px 0px;
+}
+.neirong::-webkit-scrollbar{
+  width: 0;
+}
+.neirong:focus {
+  outline: none;
+}
+.qst-submit{
+  display: block;
+  margin: 0 auto;
+  width: 100px;
+  height: 30px;
+  color: white;
+  background: #0084FF;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 5px;
+}
+.qst-submit:hover{
+  background: #0077E6;
+  cursor: pointer;
+}
+.clear-qus{
+  position: fixed;
+  left: calc((100% + 720px) / 2) ;
+  top: 90px;
+  font-size: 20px;
+  color: white;
+  z-index: 10;
+  background: none;
+}
