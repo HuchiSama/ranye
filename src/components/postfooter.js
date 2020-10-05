@@ -166,12 +166,13 @@ export default function PostsFooter(props) {
   let foldContent = useCallback(() => {
     let p = document.querySelectorAll('[name="content"] p')[idx]
     let arr = Array.from(p.classList)
+    let span = document.querySelectorAll('[name="content"] p span')
     if (!arr.includes('flodContent')) {
-      // p.style.display = '-webkit-box'
       p.classList.add('flodContent')
       setFold(true)
     } else {
       p.classList.remove('flodContent')
+      p.style.maxHeight = span[idx].offsetHeight
       setFold(false)
     }
   }, [idx])
