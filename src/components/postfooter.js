@@ -159,6 +159,7 @@ export default function PostsFooter(props) {
     if (span[idx] && span[idx].offsetHeight > 44) {
       let p = document.querySelectorAll('[name="content"] p')[idx]
       p.classList.add('flodContent')
+      p.style.height = '52px'
       setHide(true)
     }
   }, [idx, ques])
