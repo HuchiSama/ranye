@@ -103,7 +103,7 @@ function PostMain(props) {
                 <div className="user-date">
                   <a href={`/user/${post.posterId}`}><img alt="" style={{ backgroundImage: `url(${post.avatar})` }} className="userAvatar" /></a>
                   <span className="post-username"><a href={`/user/${post.posterId}`}>{post.name}</a>  ,<span className="post-time">  发布于
-                  {TIME[0] * 1 >= 1 && TIME[2] === '天' ?
+                  {parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ?
                       moment(time).format("YYYY-MM-DD HH:mm:ss")
                       : TIME
                     }

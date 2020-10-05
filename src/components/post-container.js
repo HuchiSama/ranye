@@ -127,7 +127,7 @@ function CommentItem(props) {
         <p><span>{item.content}</span></p>
         <span className="answerAt">
           发布于 &nbsp;
-        {TIME[0] * 1 >= 1 && TIME[2] === '天' ?
+        {parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ?
             moment(item.createdAt * 1).format("YYYY-MM-DD HH:mm:ss")
             : TIME
           }

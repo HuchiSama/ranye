@@ -170,7 +170,7 @@ export function ChatWindow({ targetInfo, setChat, state }) {
                 return (
                   <>
                     <li className="chat-time">
-                      {(!msgList[idx - 1] || (it.createdAt - msgList[idx - 1].createdAt >= 180000)) &&
+                      {(idx === 0 || (it.createdAt - msgList[idx - 1].createdAt >= 180000)) &&
                         <span >{now * 1 > created * 1
                           ? moment(it.createdAt * 1).format("YY-MM-DD HH:mm:ss")
                           : moment(it.createdAt * 1).format("MM-DD HH:mm:ss")

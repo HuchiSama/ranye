@@ -77,7 +77,7 @@ export function CollectQuestion(props) {
   return (
     <li key={item.likeAt || item.createdAt}>
       <div className="dynamicList-header"><span>收藏了问题</span><span>
-        {TIME[0] * 1 > 5 && TIME[2] === '天' ?
+        {parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ?
           new Date(time).toLocaleDateString().slice(5)
           : TIME
         }</span></div>
@@ -107,7 +107,7 @@ export function CollectComment(props) {
   return (
     <li key={item.likeAt || item.createdAt}>
       <div className="dynamicList-header"><span>收藏了回答</span><span>
-        {TIME[0] * 1 > 5 && TIME[2] === '天' ?
+        {parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ?
           new Date(time).toLocaleDateString().slice(5)
           : TIME
         }</span></div>
@@ -125,8 +125,8 @@ export function CollectComment(props) {
       <div className="content-div" name="content">
         <p><span>{item.content}</span></p>
         <span className="answerAt">发布于 &nbsp;
-        {POST_TIME[0] * 1 >= 1 && POST_TIME[2] === '天' ?
-            moment(item.createdAt * 1).month(1).format("YYYY-MM-DD HH:mm:ss")
+        {parseInt(POST_TIME) >= 1 && /天/g.test(POST_TIME) ?
+            moment(item.createdAt * 1).format("YYYY-MM-DD HH:mm:ss")
             : POST_TIME
           }
         </span>

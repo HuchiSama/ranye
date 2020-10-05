@@ -177,7 +177,7 @@ function Poster(props) {
         <li><span>回答数</span><br />{answerCount.length}</li>
       </ul>
       <div className="post-other-time"><span>发帖时间：</span>
-        {TIME[0] * 1 > 5 && TIME[2] === '天' ?
+        {parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ?
           moment(time).format("YYYY-MM-DD HH:mm:ss")
           : TIME
         }</div>
