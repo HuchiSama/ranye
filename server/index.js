@@ -329,7 +329,7 @@ app.route('/api/get-care/:id')
     WHERE
     cares.careId =?`, [id])
 
-    res.json({ itCaresList, myCares, recevies })
+    res.json({ itCaresList, myCares, recevies, cookieUser })
   })
 
 app.route('/api/post-page/:id')
