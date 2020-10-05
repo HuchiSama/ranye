@@ -172,7 +172,7 @@ export default function PostsFooter(props) {
       setFold(true)
     } else {
       p.classList.remove('flodContent')
-      p.style.maxHeight = span[idx].offsetHeight + "px"
+      p.style.height = span[idx].offsetHeight + "px"
       setFold(false)
     }
   }, [idx])
