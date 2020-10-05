@@ -719,6 +719,12 @@ li.nav-cares-item a span,.nav-chat-item >div span{
 }
 .nav-comment-item-title{
   color: #aba8a8;
+  display: block;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: #c8c8c845;
 }
 .nav-comment-item-content{
   display: block;

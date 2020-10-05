@@ -369,8 +369,8 @@ function CommentLikeItem({ item }) {
     <li className="nav-invited-item" key={item.createdAt}>
       <a href={`/user/${item.userId}`}>{item.userName}</a>
       <span>&nbsp;点赞了您的回答:&nbsp;<span className="nav-comment-item-time">{TIME_CONTENT}</span></span>
-      <a href={`/post-page/${item.postId}`} className="nav-comment-item-content">{item.content}</a>
-      <a href={`/post-page/${item.postId}`} className="nav-comment-item-title">{item.title}</a>
+      <a href={`/post-page/${item.postId}`} className="nav-comment-item-content" >{item.content}</a>
+      <a href={`/post-page/${item.postId}`} className="nav-comment-item-title" title={item.title}>{item.title}</a>
     </li>
   )
 }
