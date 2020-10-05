@@ -626,7 +626,7 @@ button.likeActive:hover{
 .nav-invited-outer{
   border-radius: 5px;
   position: absolute;
-  left: -160px;
+  left: -175px;
   top: 45px;
   width: 360px;
   background: white;
@@ -648,6 +648,7 @@ button.likeActive:hover{
 .nav-invited-list{
   overflow-y: auto;
   height: 430px;
+  padding:0 8px;
 }
 .nav-invited-head ul{
   display: flex;
@@ -673,14 +674,16 @@ button.likeActive:hover{
 }
 
 .nav-invited-list li{
-  padding: 10px 15px;
+  padding: 12px 15px;
   border-bottom: 1px  #f4f4f4 solid;
-  line-height: 24px;
+  line-height: 22px;
 }
 .nav-invited-outer .flag{
-  left: 152px;
+  left: 166px;
 }
-
+.nav-invited-list li a{
+  color: #175199;
+}
 .active-msgList svg{
   color: #0077E6;
 }
@@ -717,7 +720,7 @@ li.nav-cares-item a span,.nav-chat-item >div span{
   border-radius: 5px;
   margin-right: 10px;
 }
-.nav-comment-item-title{
+.nav-invited-item a.nav-comment-item-title{
   color: #aba8a8;
   display: block;
   font-size: 12px;
