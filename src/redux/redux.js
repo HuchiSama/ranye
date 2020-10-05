@@ -54,7 +54,17 @@ const signActions = {
         draft[key] = action[key]
       }
     })
-  }
+  },
+  toSignin(state, action) {
+    return produce(state, (draft) => {
+      draft.sucessSignup = action.sucessSignup
+      draft.form = 'signin'
+      draft.captcha = true
+      draft.protocol = "未注册手机验证后自动登录，注册即代表同意《知乎协议》《隐私保护指引》"
+      draft.buttonText = '登录'
+      draft.other = true
+    })
+  },
 }
 
 function signReducer(state, action) {

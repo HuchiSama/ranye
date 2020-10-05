@@ -171,9 +171,15 @@ function CommentAns(props) {
       <a href={`/user/${item.userId}`}>{item.name}{item.userId === item.commentId ? '(作者)' : ''}</a>
     </div>
   )
+  let TIME = moment(item.createdAt * 1).endOf().fromNow(true) + '前'
+
   return (
     <>
-      <Comment actions={[action]} author={[author]} datetime={moment(item.createdAt * 1).endOf().fromNow(true) + '前'} content={<p>{item.content}</p>}>
+      <Comment actions={[action]} author={[author]} datetime={
+        parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ?
+          moment(item.createdAt * 1).format("YYYY-MM-DD HH:mm:ss")
+          : TIME
+      } content={<p>{item.content}</p>}>
         {!hide &&
           <>
             {!allView && endCommentList.slice(0, 2).map(it => {

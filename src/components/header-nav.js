@@ -364,10 +364,11 @@ function CareItem({ item }) {
 
 function CommentLikeItem({ item }) {
   let TIME = moment(item.createdAt * 1).endOf().fromNow(true) + '前'
+  let TIME_CONTENT = parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ? moment(item.createdAt * 1).format("YYYY-MM-DD HH:mm:ss") : TIME
   return (
     <li className="nav-invited-item" key={item.createdAt}>
       <a href={`/user/${item.userId}`}>{item.userName}</a>
-      <span>&nbsp;点赞了您的回答:&nbsp;<span className="nav-comment-item-time">{TIME}</span></span>
+      <span>&nbsp;点赞了您的回答:&nbsp;<span className="nav-comment-item-time">{TIME_CONTENT}</span></span>
       <a href={`/post-page/${item.postId}`} className="nav-comment-item-content">{item.content}</a>
       <a href={`/post-page/${item.postId}`} className="nav-comment-item-title">{item.title}</a>
     </li>
