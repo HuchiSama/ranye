@@ -310,8 +310,6 @@ function MessageItem({ inviteMsg, byCareMsg, byCommentMsg, className }) {
     <div className={`nav-invited-outer ${className}`}>
       <span className="flag"><i></i></span>
       <div className="nav-invited-head">
-        {/* <UsergroupAddOutlined />
-        <h2>最近受邀问题</h2> */}
         <ul>
           <li onClick={() => setActive(0)}><ProjectFilled className={active === 0 ? 'active-msgList' : ''} /></li>
           <li onClick={() => setActive(1)}><HeartFilled className={active === 1 ? 'active-msgList' : ''} /></li>
@@ -320,13 +318,13 @@ function MessageItem({ inviteMsg, byCareMsg, byCommentMsg, className }) {
       </div>
       <ul className={scroll ? "nav-invited-list nav-invited-scroll" : 'nav-invited-list'}>
         {active === 1 && <div className="msgList-care-head"><span>最近这些人关注了你</span></div>}
-        {MessageList.length !== 0 && MessageList.map(it => {
+        {MessageList.length !== 0 && MessageList.map((it, idx) => {
           return (
-            <>
+            <Fragment key={idx}>
               {active === 0 && <InvitedItem item={it} />}
               {active === 1 && <CareItem item={it} />}
               {active === 2 && <CommentLikeItem item={it} />}
-            </>
+            </Fragment>
           )
         })
         }
