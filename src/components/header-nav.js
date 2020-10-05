@@ -364,7 +364,7 @@ function CareItem({ item }) {
 
 function CommentLikeItem({ item }) {
   let TIME = moment(item.createdAt * 1).endOf().fromNow(true) + '前'
-  let TIME_CONTENT = parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ? moment(item.createdAt * 1).format("YYYY-MM-DD HH:mm:ss") : TIME
+  let TIME_CONTENT = parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ? moment(item.createdAt * 1).format("MM-DD HH:mm") : TIME
   return (
     <li className="nav-invited-item" key={item.createdAt}>
       <a href={`/user/${item.userId}`}>{item.userName}</a>
