@@ -1,13 +1,14 @@
 import React, { useCallback, Fragment, useEffect, useState } from 'react'
 import './home-page.css'
 import { SearchOutlined, BellFilled, MessageFilled, HomeFilled, UserOutlined, FormOutlined, LogoutOutlined, ProjectFilled, HeartFilled, LikeFilled } from '@ant-design/icons'
-import { homeStore, navStore, userStore } from '../redux/redux'
+import { homeStore, navStore, signStore, userStore } from '../redux/redux'
 import axios from 'axios'
 import { Empty } from 'antd';
 import { withRouter } from 'react-router-dom'
 import Sign from './sign'
 import moment from 'moment';
 import { ChatWindow } from './care-message'
+import { Success } from './signup-component'
 
 function useGetInvite() {
   let [inviteMsg, setInviteMsg] = useState(navStore.getState().invitedList || [])
@@ -132,9 +133,14 @@ export default function () {
   let [state, setState] = useState(navStore.getState() || {})
   let { invitePull, inviteMsg, byCareMsg, byCommentMsg, msgSum, invited } = useGetInvite()
   let { chat, chatSum, chatList, chatPull } = useGetChat(state)
+  let [signState, setSignState] = useState(signStore.getState())
   useEffect(() => {
+    let signUns = signStore.subscribe(() => setSignState(signStore.getState() || {}))
     let uns = navStore.subscribe(() => setState(navStore.getState() || {}))
-    return () => uns()
+    return () => {
+      uns()
+      signUns()
+    }
   }, [])
   let postQuestion = useCallback(() => {
     if (state.cookieUser === undefined) {
@@ -229,6 +235,9 @@ export default function () {
         </div>
       </nav>
       {!state.sign && <div className="user-not-sign"><Sign /></div>}
+      {signState.sucessSignup &&
+        <Success props={signState} />
+      }
     </>
   )
 }

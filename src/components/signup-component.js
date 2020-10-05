@@ -32,7 +32,7 @@ export default function Logup() {
   )
 }
 
-function Success(props) {
+export function Success(props) {
 
   return (
     <div className="success-bg">
