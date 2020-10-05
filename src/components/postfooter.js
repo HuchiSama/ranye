@@ -169,6 +169,7 @@ export default function PostsFooter(props) {
     let span = document.querySelectorAll('[name="content"] p span')
     if (!arr.includes('flodContent')) {
       p.classList.add('flodContent')
+      p.style.height = '52px'
       setFold(true)
     } else {
       p.classList.remove('flodContent')
