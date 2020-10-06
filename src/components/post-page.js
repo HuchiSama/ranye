@@ -6,6 +6,8 @@ import PostContainer from './post-container'
 import { FormOutlined, MessageFilled, FireFilled, UserAddOutlined } from '@ant-design/icons';
 import { pageStore, navStore } from '../redux/redux'
 // var POST_DATA
+import Nav from '../components/header-nav'
+
 import moment from 'moment';
 import Invite from './invite'
 
@@ -34,6 +36,9 @@ export default function () {
 
   return (
     <>
+      <Nav page={"post"}>
+        <PostNavChild data={data} />
+      </Nav>
       <PostInfo>
         <PostTitle data={data} />
         <Poster data={data} />
@@ -41,6 +46,28 @@ export default function () {
       <PostContainer data={data} />
       {invite && <Invite id={id} />}
     </>
+  )
+}
+function PostNavChild({ data }) {
+  let post = data.post || {}
+  let writeAnswer = useCallback(() => {
+    pageStore.dispatch({
+      type: 'writeAnswer',
+      writeAnswer: !data.writeAnswer,
+    })
+    document.documentElement.scrollTop = 0
+    let sliderNav = document.querySelector('.nav-slider-outer')
+    sliderNav.style.top = '0px'
+  }, [data])
+
+  return (
+    <div className="post-nav-slider">
+      <h1 title={post.title}>{post.title}</h1>
+      <div className="post-footer-list">
+        <Attention data={data} />
+        <div className="answer" onClick={writeAnswer}><FormOutlined />写回答</div>
+      </div>
+    </div>
   )
 }
 
@@ -67,17 +94,22 @@ function PostTitle(props) {
 
   useEffect(() => {
     let span = document.querySelector('.post-content span')
+    let p = document.querySelector('.post-content')
     if (span.offsetHeight > 72) {
+      p.style.height = '72px'
       upHide(true)
     }
   }, [data])
   let foldCutover = useCallback(() => {
     let p = document.querySelector('.post-content')
+    let span = document.querySelector('.post-content span')
     if (fold) {
       p.style.display = 'block'
+      p.style.height = span.offsetHeight + 'px'
       setFlod(false)
     } else {
       p.style.display = '-webkit-box'
+      p.style.height = '72px'
       setFlod(true)
     }
   }, [fold])

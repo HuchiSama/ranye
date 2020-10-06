@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState,Fragment } from 'react'
 import axios from 'axios'
 import { HeartOutlined, CommentOutlined, CloseOutlined } from '@ant-design/icons';
 import { careStore, navStore } from '../redux/redux';
@@ -164,11 +164,11 @@ export function ChatWindow({ targetInfo, setChat, state }) {
         <div className="chat-section">
           <ul className="chat-section-ul">
             {msgList.map((it, idx) => {
-              if (it.targetName === targetInfo.name) {
+              if (it.targetName !== state.cookieUser) {
                 let now = moment(Date.now()).format("YY")
                 let created = moment(it.createdAt * 1).format("YY")
                 return (
-                  <>
+                  <Fragment key={it.createdAt}>
                     <li className="chat-time">
                       {(idx === 0 || (it.createdAt - msgList[idx - 1].createdAt >= 180000)) &&
                         <span >{now * 1 > created * 1
@@ -181,14 +181,26 @@ export function ChatWindow({ targetInfo, setChat, state }) {
                       <p className="chat-msg-content">{it.content}</p>
                       <i style={{ backgroundImage: `url(${it.userAvatar})` }} className="chat-msg-avatar"></i>
                     </li>
-                  </>
+                  </Fragment>
                 )
               } else {
+                let now = moment(Date.now()).format("YY")
+                let created = moment(it.createdAt * 1).format("YY")
                 return (
-                  <li className="chat-section-target" key={it.createdAt}>
-                    <i style={{ backgroundImage: `url(${targetInfo.avatar})` }} className="chat-msg-avatar"></i>
-                    <p className="chat-msg-content">{it.content}</p>
-                  </li>
+                  <Fragment key={it.createdAt}>
+                    <li className="chat-time">
+                      {(idx === 0 || (it.createdAt - msgList[idx - 1].createdAt >= 180000)) &&
+                        <span >{now * 1 > created * 1
+                          ? moment(it.createdAt * 1).format("YY-MM-DD HH:mm:ss")
+                          : moment(it.createdAt * 1).format("MM-DD HH:mm:ss")
+                        }
+                        </span>
+                      }</li>
+                    <li className="chat-section-target" key={it.createdAt}>
+                      <i style={{ backgroundImage: `url(${targetInfo.avatar})` }} className="chat-msg-avatar"></i>
+                      <p className="chat-msg-content">{it.content}</p>
+                    </li>
+                  </Fragment>
                 )
               }
             })

@@ -522,3 +522,28 @@ li.recare:hover{
 .postsfooter ul >li{
   min-width: 90px;
 }
+
+.nav-slider-outer .user-main{
+  box-shadow:none;
+  height:48px;
+}
+.nav-slider-outer .user-main .user-main-header{
+  border:none;
+  margin-bottom:0;
+  height :48px;
+}
+.user-ndv-slider{
+  display:flex;
+  height:50px;
+  justify-content:space-between;
+  align-items:center;
+}
+.nav-slider-outer .user-main-header li{
+  line-height:40px;
+}
+.nav-slider-outer .user-main-flag{
+  top:47px;
+}
+.user-ndv-slider .poster-interactive{
+  margin-bottom:0;
+}

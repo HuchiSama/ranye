@@ -21,6 +21,10 @@ function UserHeader() {
   let [state, setState] = useState({})
   let userInfo = state.userInfo || {}
 
+  useEffect(() => {
+    let uns = userStore.subscribe(() => setState(userStore.getState()))
+    return () => uns()
+  }, [])
   let [avatar, avatarChange] = useState(userInfo.avatar)
   //切换头像
   let [hoverAvatar, setHover] = useState(false)
@@ -64,10 +68,6 @@ function UserHeader() {
     }
   }, [userInfo])
 
-  useEffect(() => {
-    let uns = userStore.subscribe(() => setState(userStore.getState()))
-    return () => uns()
-  }, [])
 
   let [flod, setFlod] = useState(false)
   let flodClick = useCallback(() => {

@@ -16,6 +16,8 @@ nav{
   left: 0;
   right: 0;
   z-index: 9999;
+  flex-wrap: wrap;
+  overflow: hidden;
   background: white;
 }
 
@@ -261,7 +263,8 @@ ul.home-list li>a{
   font-size: 15px;
   white-space: pre-wrap;
   display: block;
-  transition: height 0.3s;
+  overflow: hidden;
+  transition: height 0.2s;
 }
 /* .posts li p span:hover{
   color: #627799;
@@ -530,7 +533,7 @@ a.dengchu:hover{
   height: 40px ;
   width:40px;
   position: absolute;
-  box-shadow:0 0 5px 0 #aba8a8;
+  box-shadow:0 0 1px 0 #aba8a8;
   background: white;
   z-index: 90;
   top: 22px;
@@ -539,13 +542,14 @@ a.dengchu:hover{
 }
 .pull-down{
   display: none;
-  top: 45px;
-  right:-48px;
+  top: 0px;
+  right:128px;
   position: absolute;
   width: 120px;
   padding: 10px 0;
   box-shadow:0 0 5px 0 #aba8a8;
   background: white;
+  z-index:10000;
 }
 .pull-down ul li{
   cursor: pointer;
@@ -613,6 +617,7 @@ button.likeActive:hover{
   display: block;
   top: -6px;
   left: 8px;
+  cursor:pointer;
   position: absolute;
   width: 18px;
   border: 1px white solid;
@@ -625,18 +630,23 @@ button.likeActive:hover{
   background: red;
   z-index: 5;
 }
-
+.nav-pull-container{
+  position:relative;
+  min-width: 1030px;
+  height:0;
+}
 .nav-invited-outer{
   border-radius: 5px;
   position: absolute;
-  left: -175px;
-  top: 45px;
+  right: 132px;
+  top: 0px;
   width: 360px;
   background: white;
   /* height: 430px; */
   /* padding: 0 15px 15px 15px; */
   /* overflow-y: auto; */
-  box-shadow:0 4px 5px 3px #cccaca82;
+  z-index:10000;
+  box-shadow:0 1px 5px 2px #cccaca82;
 }
 /* .nav-invited-scroll{
 
@@ -710,6 +720,8 @@ li.nav-cares-item a h4,.nav-chat-item >div h4{
 }
 li.nav-cares-item a span,.nav-chat-item >div span{
   color:#aba8a8 ;
+  display:inline-block;
+  width:280px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -722,6 +734,7 @@ li.nav-cares-item a span,.nav-chat-item >div span{
   height: 40px;
   border-radius: 5px;
   margin-right: 10px;
+  flex-shrink:0;
 }
 .nav-invited-item a.nav-comment-item-title{
   color: #aba8a8;
@@ -902,10 +915,31 @@ ul.nav-chat-head li{
   display:inline-block;
   background: red;
 }
-
+.nav-chat-outer{
+  right:72px;
+}
 .chat-time{
   display: block;
   margin: 8px auto;
   text-align: center;
   color: #76839B;
+}
+
+.home-slider-nav{
+  position: relative;
+  min-width: 1030px;
+  padding: 0 6px;
+  background: white;
+  height: 48px;
+}
+.home-slider-nav .search-div{
+  position: absolute;
+  right: 14px;
+}
+
+.nav-slider-outer{
+  height:100px;
+  position: absolute;
+  top: 0px;
+  transition: top 0.3s;
 }

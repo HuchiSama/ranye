@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState ,useCallback} from 'react'
 import Nav from '../components/header-nav'
 import Question from '../components/question'
 import { homeStore, pageStore, userStore } from '../redux/redux'
 import UserHeader from '../components/user-header'
-import UserContainer from '../components/user-container'
+import UserContainer,{UserMain} from '../components/user-container'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import CareMessage from '../components/care-message'
 export default function () {
   let { id } = useParams()
   let [state, setState] = useState(homeStore.getState())
@@ -68,12 +69,36 @@ export default function () {
 
   return (
     <>
-      <Nav />
+      <Nav page={'user'}><UserNavSlider /></Nav>
       {state.question &&
         <Question />
       }
       <UserHeader />
       <UserContainer />
     </>
+  )
+}
+function UserNavSlider(){
+  let [state, setState] = useState({})
+  let userInfo = state.userInfo || {}
+
+  useEffect(() => {
+    let uns = userStore.subscribe(() => setState(userStore.getState()))
+    return () => uns()
+  }, [])
+   let editState = useCallback(() => {
+    userStore.dispatch({
+      type: 'editState',
+      edit: true
+    })
+  }, [])
+  return (
+    <div className="user-ndv-slider">
+    <UserMain dynamic={false}/>
+    {state.cookieUser === userInfo.name
+    ? <div className="user-editing" onClick={editState}>编辑个人资料</div>
+    : <div className="other-user"><CareMessage careInfo={state.userInfo} /></div>
+    }
+    </div>
   )
 }

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import Nav from '../components/header-nav'
+import React, { useEffect, useState, useCallback } from 'react'
+// import Nav from '../components/header-nav'
 import Question from '../components/question'
 import Post from '../components/post-page'
 import { homeStore } from '../redux/redux'
+
 
 export default function () {
   let [state, setState] = useState(homeStore.getState())
@@ -14,7 +15,6 @@ export default function () {
 
   return (
     <>
-      <Nav />
       {state.question &&
         <Question />
       }
@@ -22,3 +22,4 @@ export default function () {
     </>
   )
 }
+

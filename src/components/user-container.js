@@ -24,7 +24,7 @@ export default function () {
   )
 }
 
-function UserMain() {
+export function UserMain({dynamic=true}) {
   let [flag, setFlag] = useState(20)
   let [active, reActive] = useState(userStore.getState().active || 0)
   useEffect(() => {
@@ -54,9 +54,9 @@ function UserMain() {
           <li onClick={() => getMain(5)}>收藏</li>
         </ul>
         <div className="user-main-flag" style={{ left: flag + 'px' }}></div>
-        <DynamicList active={active} />
+        {dynamic&&<DynamicList active={active} />}
       </div>
-      <Over />
+      {dynamic&&<Over />}
     </div>
   )
 }

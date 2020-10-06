@@ -62,17 +62,16 @@ function useGetInvite() {
       pullUL.removeEventListener('mouseenter', enterEvent)
     }
   }, [])
-  let invitePull = useCallback((e) => {
+  let invitePull = useCallback(([setChat,setHome],e) => {
     e.stopPropagation()
     setInvited(!invited)
+    setChat(false)
+    setHome('none')
     axios.post('/api/clear-invited')
-    // navStore.dispatch({
-    //   type: 'getInitial',
-    // })
     setMsgSum(0)
   }, [invited])
 
-  return { invitePull, inviteMsg, byCareMsg, byCommentMsg, msgSum, invited }
+  return { invitePull, inviteMsg, byCareMsg, byCommentMsg, msgSum, invited,setInvited }
 }
 
 function useGetChat(state) {
@@ -93,13 +92,11 @@ function useGetChat(state) {
     let uns = navStore.subscribe(() => updateChat(navStore.getState().chatList))
     return () => uns()
   }, [])
-  let chatPull = useCallback((e) => {
+  let chatPull = useCallback(([setHome,setInvited],e) => {
     e.stopPropagation()
+    setHome('none')
     setChat(!chat)
-    // axios.post('/api/clear-chat')
-    // navStore.dispatch({
-    //   type: 'getInitial',
-    // })
+    setInvited(false)
     setChatSum(0)
   }, [chat])
   useEffect(() => {
@@ -126,13 +123,13 @@ function useGetChat(state) {
       pullUL.removeEventListener('mouseenter', enterEvent)
     }
   }, [])
-  return { chat, chatSum, chatList, chatPull }
+  return { chat, setChat,chatSum, chatList, chatPull }
 }
-export default function () {
+export default function (props) {
   let [homeDis, setHome] = useState('none')
   let [state, setState] = useState(navStore.getState() || {})
-  let { invitePull, inviteMsg, byCareMsg, byCommentMsg, msgSum, invited } = useGetInvite()
-  let { chat, chatSum, chatList, chatPull } = useGetChat(state)
+  let { invitePull, inviteMsg, byCareMsg, byCommentMsg, msgSum, invited ,setInvited} = useGetInvite()
+  let { chat, chatSum, chatList, chatPull,setChat } = useGetChat(state)
   let [signState, setSignState] = useState(signStore.getState())
   useEffect(() => {
     let signUns = signStore.subscribe(() => setSignState(signStore.getState() || {}))
@@ -187,61 +184,91 @@ export default function () {
       return () => window.removeEventListener('click', clearSignDIV)
     }
   }, [state])
-  let homeList = useCallback((e) => {
+  let homeList = useCallback(([setChat,setInvited],e) => {
     e.stopPropagation()
     if (homeDis === 'none') {
       setHome('block')
     } else {
       setHome('none')
     }
+    setChat(false)
+    setInvited(false)
   }, [homeDis])
+  useEffect(() => {
+    let sliderNav = document.querySelector('.nav-slider-outer')
+    function slider(e) {
+      if(props.page === 'post'){
+        if (document.documentElement.scrollTop < 100){
+          return 
+        }
+      }
+      if(props.page === 'user'){
+        if (document.documentElement.scrollTop < 300){
+          return 
+        }
+      }
+      if (e.wheelDelta > 0) {
+        sliderNav.style.top = '0px'
+      } else {
+        sliderNav.style.top = '-50px'
+      }
+    }
 
+    window.addEventListener('mousewheel', slider)
+    return () => window.removeEventListener('mousewheel', slider)
+  }, [props])
   return (
     <>
       <nav>
-        <div className="top-nav">
-          <a href="/" className="home-logo">
-            <img src="/images/icon2.jpg" alt="zhi 呼" />
-          </a>
-          <ul className="home-list">
-            <li><a href="/">首页</a></li>
-            <li><a href="/">发现</a></li>
-            <li><a href="/">等你来答</a></li>
-          </ul>
-          <div className="search-div">
-            <label className="search-label">
-              <input type="search" name="search" className="search" placeholder="功能尚未完善" />
-              <SearchOutlined style={{ fontSize: '20px', color: '#9AA3B5' }} />
-            </label>
-            <input type="button" className="question" value="发帖" onClick={postQuestion} />
+        <div className="nav-slider-outer">
+          <div className="top-nav">
+            <a href="/" className="home-logo">
+              <img src="/images/icon2.jpg" alt="zhi 呼" />
+            </a>
+            <ul className="home-list">
+              <li><a href="/">首页</a></li>
+              <li><a href="/">发现</a></li>
+              <li><a href="/">等你来答</a></li>
+            </ul>
+            <div className="search-div">
+              <label className="search-label">
+                <input type="search" name="search" className="search" placeholder="功能尚未完善" />
+                <SearchOutlined style={{ fontSize: '20px', color: '#9AA3B5' }} />
+              </label>
+              <input type="button" className="question" value="发帖" onClick={postQuestion} />
+            </div>
+            <ul className="persen-list">
+              <li >
+                <BellFilled style={{ fontSize: "22px" }} onClick={(e)=>invitePull([setChat,setHome],e)} />
+                {msgSum !== 0 &&
+                  <label className="nav-message-icon" onClick={(e)=>invitePull([setChat,setHome],e)}>{msgSum}</label>
+                }
+                
+              </li>
+              <li>
+                <MessageFilled style={{ fontSize: "20px" }} onClick={(e)=>chatPull([setHome,setInvited],e)} />
+                {chatSum !== 0 &&
+                  <label className="nav-message-icon" onClick={(e)=>chatPull([setHome,setInvited],e)}>{chatSum}</label>
+                }
+              </li>
+              <li onClick={(e)=>homeList([setChat,setInvited],e)}><HomeFilled style={{ fontSize: "20px" }} /></li>
+            </ul>
           </div>
-          <ul className="persen-list">
-            <li >
-              <BellFilled style={{ fontSize: "22px" }} onClick={invitePull} />
-              {msgSum !== 0 &&
-                <label className="nav-message-icon">{msgSum}</label>
-              }
-              {<MessageItem inviteMsg={inviteMsg} byCareMsg={byCareMsg} byCommentMsg={byCommentMsg} className={invited ? '' : 'nav-message-hidden'} />}
-            </li>
-            <li>
-              <MessageFilled style={{ fontSize: "20px" }} onClick={chatPull} />
-              {chatSum !== 0 &&
-                <label className="nav-message-icon">{chatSum}</label>
-              }
-              {<ChatComponent className={chat ? '' : 'nav-message-hidden'} chatList={chatList} />}
-            </li>
-            <li onClick={homeList}><HomeFilled style={{ fontSize: "20px" }} /><PullDown display={homeDis} /></li>
-          </ul>
+          {props.children}
         </div>
       </nav>
+      <div className="nav-pull-container">
+      <MessageItem inviteMsg={inviteMsg} byCareMsg={byCareMsg} byCommentMsg={byCommentMsg} className={invited ? '' : 'nav-message-hidden'} />
+       <ChatComponent className={chat ? '' : 'nav-message-hidden'} chatList={chatList} />
+       <PullDown display={homeDis} />
       {!state.sign && <div className="user-not-sign"><Sign /></div>}
       {signState.sucessSignup &&
         <Success props={signState} />
       }
+      </div>
     </>
   )
 }
-
 function PullList(props) {
   let [cookie, setCookie] = useState(navStore.getState().cookieUser)
   let [state, setState] = useState(navStore.getState().userInfo || {})
