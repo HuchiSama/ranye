@@ -32,7 +32,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookie('asdhjadsasdha'))
 
-
+app.get('*', (request, response) => {
+  response.sendFile(path.resolve(__dirname, 'build', 'index.html'))
+})
 
 var sessionStore = Object.create(null)
 //派发session
@@ -51,11 +53,6 @@ app.use(function sessionMW(req, res, next) {
   }
   next()
 })
-
-app.set('views engine', 'pug')
-app.locals.pretty = true
-app.engine("pug", require('pug').__express)
-
 
 //私信接口
 let clintList = new Map()
