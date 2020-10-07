@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Comment, Form, Button, Input } from 'antd';
 import { ansComStore, navStore } from '../redux/redux';
 import { DislikeFilled, MessageFilled, LikeFilled, } from '@ant-design/icons';
+import { Link } from "react-router-dom"
 const { TextArea } = Input;
 
 
@@ -83,9 +84,9 @@ export function EndCommentList({ item, commentId, state, ansCommentId }) {
   let author = (
     <div className="ansComment-header">
       <i style={{ backgroundImage: `url(${item.avatar})` }} className="endComment-avatar"></i>
-      <a href={`/user/${item.userId}`}>{item.name}{item.userId === commentId ? '(作者)' : ''}</a>
+      <Link to={`/user/${item.userId}`}>{item.name}{item.userId === commentId ? '(作者)' : ''}</Link>
       &nbsp;&nbsp;回复&nbsp;&nbsp;
-      <a href={`/user/${item.targetUserId}`}>{item.targetName}{item.targetUserId === commentId ? '(作者)' : ''}</a>
+      <Link to={`/user/${item.targetUserId}`}>{item.targetName}{item.targetUserId === commentId ? '(作者)' : ''}</Link>
     </div>
   )
   let TIME = moment(item.createdAt * 1).endOf().fromNow(true) + '前'

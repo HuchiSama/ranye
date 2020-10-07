@@ -4,6 +4,7 @@ import { homeStore, pageStore } from '../redux/redux'
 import PostsFooter from './postfooter'
 import { useParams } from 'react-router-dom'
 import moment from 'moment';
+import { Link } from "react-router-dom"
 
 export default function () {
   let [state, setState] = useState(homeStore.getState())
@@ -101,8 +102,8 @@ function PostMain(props) {
             return (
               <li key={post.postId}>
                 <div className="user-date">
-                  <a href={`/user/${post.posterId}`}><img alt="" style={{ backgroundImage: `url(${post.avatar})` }} className="userAvatar" /></a>
-                  <span className="post-username"><a href={`/user/${post.posterId}`}>{post.name}</a>  ,<span className="post-time">  发布于
+                  <Link to={`/user/${post.posterId}`}><img alt="" style={{ backgroundImage: `url(${post.avatar})` }} className="userAvatar" /></Link>
+                  <span className="post-username"><Link to={`/user/${post.posterId}`}>{post.name}</Link>  ,<span className="post-time">  发布于
                   {parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ?
                       moment(time).format("YYYY-MM-DD HH:mm:ss")
                       : TIME
@@ -111,7 +112,7 @@ function PostMain(props) {
                   <Attachment state={props.state} post={post} type='post' />
                 </div>
                 <div className="content-div" name="content">
-                  <a className="post-title" href={`/post-page/${post.postId}`}>{post.title}</a>
+                  <Link className="post-title" to={`/post-page/${post.postId}`}>{post.title}</Link>
                   <p className="post-content">
                     <span>{post.content}</span>
                   </p>

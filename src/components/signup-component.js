@@ -5,7 +5,7 @@ import './signin-component.css'
 import Footer from './footer'
 import { signStore } from '../redux/redux'
 import Sign from './sign'
-
+import { Link } from "react-router-dom"
 
 export default function Logup() {
   let [state, setState] = useState({
@@ -45,7 +45,7 @@ export function Success(props) {
       <div className={props.sucessSignup ? "success" : 'suc-transition success'}>
         <img src="/images/loading.gif" alt="注册成功" />
         <label className="label-visi">
-          <span>注册成功！ </span> 点击 <a href="/sign" onClick={toSignin}>返回登陆</a>
+          <span>注册成功！ </span> 点击 <Link to="/sign" onClick={toSignin}>返回登陆</Link>
         </label>
       </div>
     </div>

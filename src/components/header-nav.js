@@ -9,6 +9,7 @@ import Sign from './sign'
 import moment from 'moment';
 import { ChatWindow } from './care-message'
 import { Success } from './signup-component'
+import { Link } from "react-router-dom"
 
 function useGetInvite() {
   let [inviteMsg, setInviteMsg] = useState(navStore.getState().invitedList || [])
@@ -62,7 +63,7 @@ function useGetInvite() {
       pullUL.removeEventListener('mouseenter', enterEvent)
     }
   }, [])
-  let invitePull = useCallback(([setChat,setHome],e) => {
+  let invitePull = useCallback(([setChat, setHome], e) => {
     e.stopPropagation()
     setInvited(!invited)
     setChat(false)
@@ -71,7 +72,7 @@ function useGetInvite() {
     setMsgSum(0)
   }, [invited])
 
-  return { invitePull, inviteMsg, byCareMsg, byCommentMsg, msgSum, invited,setInvited }
+  return { invitePull, inviteMsg, byCareMsg, byCommentMsg, msgSum, invited, setInvited }
 }
 
 function useGetChat(state) {
@@ -92,7 +93,7 @@ function useGetChat(state) {
     let uns = navStore.subscribe(() => updateChat(navStore.getState().chatList))
     return () => uns()
   }, [])
-  let chatPull = useCallback(([setHome,setInvited],e) => {
+  let chatPull = useCallback(([setHome, setInvited], e) => {
     e.stopPropagation()
     setHome('none')
     setChat(!chat)
@@ -123,13 +124,13 @@ function useGetChat(state) {
       pullUL.removeEventListener('mouseenter', enterEvent)
     }
   }, [])
-  return { chat, setChat,chatSum, chatList, chatPull }
+  return { chat, setChat, chatSum, chatList, chatPull }
 }
 export default function (props) {
   let [homeDis, setHome] = useState('none')
   let [state, setState] = useState(navStore.getState() || {})
-  let { invitePull, inviteMsg, byCareMsg, byCommentMsg, msgSum, invited ,setInvited} = useGetInvite()
-  let { chat, chatSum, chatList, chatPull,setChat } = useGetChat(state)
+  let { invitePull, inviteMsg, byCareMsg, byCommentMsg, msgSum, invited, setInvited } = useGetInvite()
+  let { chat, chatSum, chatList, chatPull, setChat } = useGetChat(state)
   let [signState, setSignState] = useState(signStore.getState())
   useEffect(() => {
     let signUns = signStore.subscribe(() => setSignState(signStore.getState() || {}))
@@ -184,7 +185,7 @@ export default function (props) {
       return () => window.removeEventListener('click', clearSignDIV)
     }
   }, [state])
-  let homeList = useCallback(([setChat,setInvited],e) => {
+  let homeList = useCallback(([setChat, setInvited], e) => {
     e.stopPropagation()
     if (homeDis === 'none') {
       setHome('block')
@@ -197,14 +198,14 @@ export default function (props) {
   useEffect(() => {
     let sliderNav = document.querySelector('.nav-slider-outer')
     function slider(e) {
-      if(props.page === 'post'){
-        if (document.documentElement.scrollTop < 100){
-          return 
+      if (props.page === 'post') {
+        if (document.documentElement.scrollTop < 100) {
+          return
         }
       }
-      if(props.page === 'user'){
-        if (document.documentElement.scrollTop < 300){
-          return 
+      if (props.page === 'user') {
+        if (document.documentElement.scrollTop < 300) {
+          return
         }
       }
       if (e.wheelDelta > 0) {
@@ -222,13 +223,13 @@ export default function (props) {
       <nav>
         <div className="nav-slider-outer">
           <div className="top-nav">
-            <a href="/" className="home-logo">
+            <Link to="/" className="home-logo">
               <img src="/images/icon2.jpg" alt="zhi 呼" />
-            </a>
+            </Link>
             <ul className="home-list">
-              <li><a href="/">首页</a></li>
-              <li><a href="/">发现</a></li>
-              <li><a href="/">等你来答</a></li>
+              <li><Link to="/">首页</Link></li>
+              <li><Link to="/">发现</Link></li>
+              <li><Link to="/">等你来答</Link></li>
             </ul>
             <div className="search-div">
               <label className="search-label">
@@ -239,32 +240,32 @@ export default function (props) {
             </div>
             <ul className="persen-list">
               <li >
-                <BellFilled style={{ fontSize: "22px" }} onClick={(e)=>invitePull([setChat,setHome],e)} />
+                <BellFilled style={{ fontSize: "22px" }} onClick={(e) => invitePull([setChat, setHome], e)} />
                 {msgSum !== 0 &&
-                  <label className="nav-message-icon" onClick={(e)=>invitePull([setChat,setHome],e)}>{msgSum}</label>
+                  <label className="nav-message-icon" onClick={(e) => invitePull([setChat, setHome], e)}>{msgSum}</label>
                 }
-                
+
               </li>
               <li>
-                <MessageFilled style={{ fontSize: "20px" }} onClick={(e)=>chatPull([setHome,setInvited],e)} />
+                <MessageFilled style={{ fontSize: "20px" }} onClick={(e) => chatPull([setHome, setInvited], e)} />
                 {chatSum !== 0 &&
-                  <label className="nav-message-icon" onClick={(e)=>chatPull([setHome,setInvited],e)}>{chatSum}</label>
+                  <label className="nav-message-icon" onClick={(e) => chatPull([setHome, setInvited], e)}>{chatSum}</label>
                 }
               </li>
-              <li onClick={(e)=>homeList([setChat,setInvited],e)}><HomeFilled style={{ fontSize: "20px" }} /></li>
+              <li onClick={(e) => homeList([setChat, setInvited], e)}><HomeFilled style={{ fontSize: "20px" }} /></li>
             </ul>
           </div>
           {props.children}
         </div>
       </nav>
       <div className="nav-pull-container">
-      <MessageItem inviteMsg={inviteMsg} byCareMsg={byCareMsg} byCommentMsg={byCommentMsg} className={invited ? '' : 'nav-message-hidden'} />
-       <ChatComponent className={chat ? '' : 'nav-message-hidden'} chatList={chatList} />
-       <PullDown display={homeDis} />
-      {!state.sign && <div className="user-not-sign"><Sign /></div>}
-      {signState.sucessSignup &&
-        <Success props={signState} />
-      }
+        <MessageItem inviteMsg={inviteMsg} byCareMsg={byCareMsg} byCommentMsg={byCommentMsg} className={invited ? '' : 'nav-message-hidden'} />
+        <ChatComponent className={chat ? '' : 'nav-message-hidden'} chatList={chatList} />
+        <PullDown display={homeDis} />
+        {!state.sign && <div className="user-not-sign"><Sign /></div>}
+        {signState.sucessSignup &&
+          <Success props={signState} />
+        }
       </div>
     </>
   )
@@ -315,7 +316,7 @@ function PullList(props) {
       <ul className="home-pull">
         <li onClick={myHome}><UserOutlined />我的首页</li>
         <li onClick={toEditpage}><FormOutlined />编辑资料</li>
-        <li onClick={sign_out}><a href='/sign'><LogoutOutlined />退出登陆</a></li>
+        <li onClick={sign_out}><Link to='/sign'><LogoutOutlined />退出登陆</Link></li>
       </ul>
     </div>
   )
@@ -367,22 +368,22 @@ function MessageItem({ inviteMsg, byCareMsg, byCommentMsg, className }) {
 function InvitedItem({ item }) {
   return (
     <li className="nav-invited-item" key={item.createdAt}>
-      <a href={`/user/${item.userId}`}>{item.userName}</a>
+      <Link to={`/user/${item.userId}`}>{item.userName}</Link>
       <span>&nbsp;邀请您回答问题&nbsp;</span>
-      <a href={`/post-page/${item.postId}`}>{item.title}</a>
+      <Link to={`/post-page/${item.postId}`}>{item.title}</Link>
     </li>
   )
 }
 function CareItem({ item }) {
   return (
     <li className="nav-cares-item" key={item.createdAt}>
-      <a href={`/user/${item.userId}`}>
+      <Link to={`/user/${item.userId}`}>
         <i style={{ backgroundImage: `url(${item.avatar})` }} className="msgList-care-avatar"></i>
         <div>
           <h4>{item.name}</h4>
           <span>{item.sign}</span>
         </div>
-      </a>
+      </Link>
     </li>
   )
 }
@@ -392,10 +393,10 @@ function CommentLikeItem({ item }) {
   let TIME_CONTENT = parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ? moment(item.createdAt * 1).format("MM-DD HH:mm") : TIME
   return (
     <li className="nav-invited-item" key={item.createdAt}>
-      <a href={`/user/${item.userId}`}>{item.userName}</a>
+      <Link to={`/user/${item.userId}`}>{item.userName}</Link>
       <span>&nbsp;点赞了您的回答:&nbsp;<span className="nav-comment-item-time">{TIME_CONTENT}</span></span>
-      <a href={`/post-page/${item.postId}`} className="nav-comment-item-content" >{item.content}</a>
-      <a href={`/post-page/${item.postId}`} className="nav-comment-item-title" title={item.title}>{item.title}</a>
+      <Link to={`/post-page/${item.postId}`} className="nav-comment-item-content" >{item.content}</Link>
+      <Link to={`/post-page/${item.postId}`} className="nav-comment-item-title" title={item.title}>{item.title}</Link>
     </li>
   )
 }

@@ -9,7 +9,7 @@ import { Over, Attachment } from './invitation'
 import axios from 'axios'
 import CareMessage from './care-message'
 import { withRouter } from 'react-router-dom'
-
+import { Link } from "react-router-dom"
 
 export default function () {
   let [data, Update] = useState(pageStore.getState())
@@ -116,9 +116,9 @@ function CommentItem(props) {
   return (
     <li key={item.createdAt}>
       <div className="commenter-info" >
-        <a href={`/user/${item.userId}`}><i className="commenter-avatar" style={{ backgroundImage: `url(${item.avatar})` }}></i></a>
+        <Link to={`/user/${item.userId}`}><i className="commenter-avatar" style={{ backgroundImage: `url(${item.avatar})` }}></i></Link>
         <div className="commenter-flag">
-          <a className="commenter-name" href={`/user/${item.userId}`}>{item.name}</a>
+          <Link className="commenter-name" to={`/user/${item.userId}`}>{item.name}</Link>
           <span className="commenter-sign">{item.sign}</span>
           <Attachment state={data} post={item} type='comment' />
         </div>
@@ -181,11 +181,11 @@ function Info(props) {
   return (
     <div className="posterInfo">
       <div className="posterInfo-user">
-        <a href={`/user/${poster.userId}`}>
+        <Link to={`/user/${poster.userId}`}>
           <i className="post-avatar" style={{ backgroundImage: `url(${poster.avatar})` }}></i>
-        </a>
+        </Link>
         <div className="poster-userInfo">
-          <a href={`/user/${poster.userId}`}><h3>{poster.name}</h3></a>
+          <Link to={`/user/${poster.userId}`}><h3>{poster.name}</h3></Link>
           <span>{poster.sign}</span>
         </div>
       </div>

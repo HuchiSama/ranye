@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useState, Fragment } from 'react'
-// import axios from 'axios'
-// import { ManOutlined, DownOutlined, UpOutlined, MailOutlined } from '@ant-design/icons'
 import moment from 'moment';
 import UserBar from './user-Bar'
 import { Over, Attachment } from './invitation'
@@ -11,9 +9,9 @@ import { userStore } from '../redux/redux'
 import PostsFooter from './postfooter'
 import AttentionDynamic from './caresList'
 import CollectList, { CollectQuestion, CollectComment } from './collectList'
+import { Link } from "react-router-dom"
 
 export default function () {
-
   return (
     <div className=" user-container">
       <div className="body-container">
@@ -24,7 +22,7 @@ export default function () {
   )
 }
 
-export function UserMain({dynamic=true}) {
+export function UserMain({ dynamic = true }) {
   let [flag, setFlag] = useState(20)
   let [active, reActive] = useState(userStore.getState().active || 0)
   useEffect(() => {
@@ -54,9 +52,9 @@ export function UserMain({dynamic=true}) {
           <li onClick={() => getMain(5)}>收藏</li>
         </ul>
         <div className="user-main-flag" style={{ left: flag + 'px' }}></div>
-        {dynamic&&<DynamicList active={active} />}
+        {dynamic && <DynamicList active={active} />}
       </div>
-      {dynamic&&<Over />}
+      {dynamic && <Over />}
     </div>
   )
 }
@@ -177,12 +175,12 @@ function AnswerDynamic(props) {
         }
       </span></div>
       <div className="content-div" name="content">
-        <a className="post-title" href={`/post-page/${item.postId}`}>{item.title}</a>
+        <Link className="post-title" to={`/post-page/${item.postId}`}>{item.title}</Link>
       </div>
       <div className="commenter-info dynamic-comment" >
         <i className="commenter-avatar" style={{ backgroundImage: `url(${avatar})` }}></i>
         <div className="commenter-flag">
-          <a className="commenter-name" href=".">{userInfo.name}</a>
+          <Link className="commenter-name" to=".">{userInfo.name}</Link>
           <span className="commenter-sign">{userInfo.sign}</span>
           <Attachment state={state} post={item} type='comment' />
         </div>
@@ -221,7 +219,7 @@ function PostDynamic(props) {
         <Attachment state={state} post={item} type='post' />
       </div>
       <div className="content-div" name="content">
-        <a className="post-title" href={`/post-page/${item.postId}`}>{item.title}</a>
+        <Link className="post-title" to={`/post-page/${item.postId}`}>{item.title}</Link>
         <p className="post-content">
           <span>{item.content}</span>
         </p>
@@ -249,12 +247,12 @@ function LikeDynamic(props) {
           : TIME
         }</span></div>
       <div className="content-div" name="content">
-        <a className="post-title" href={`/post-page/${item.postId}`}>{item.title}</a>
+        <Link className="post-title" to={`/post-page/${item.postId}`}>{item.title}</Link>
       </div>
       <div className="commenter-info dynamic-comment" >
         <i className="commenter-avatar" style={{ backgroundImage: `url(${avatar})` }}></i>
         <div className="commenter-flag">
-          <a className="commenter-name" href={`/user/${item.commenterId}`}>{item.name}</a>
+          <Link className="commenter-name" to={`/user/${item.commenterId}`}>{item.name}</Link>
           <span className="commenter-sign">{item.sign}</span>
           <Attachment state={state} post={item} type='comment' />
         </div>
@@ -292,7 +290,7 @@ export function AttentionQuestion(props) {
         }
       </span></div>
       <div className="content-div" name="content">
-        <a className="post-title" href={`/post-page/${item.postId}`}>{item.title}</a>
+        <Link className="post-title" to={`/post-page/${item.postId}`}>{item.title}</Link>
         <p className="post-content">
           <span>{item.content}</span>
         </p>

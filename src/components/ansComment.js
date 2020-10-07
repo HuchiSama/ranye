@@ -5,6 +5,7 @@ import { Comment, Form, Button, Input } from 'antd';
 import { ansComStore, navStore, pageStore } from '../redux/redux';
 import { DislikeFilled, WechatFilled, MessageFilled, LikeFilled, } from '@ant-design/icons';
 import { EndCommentList } from './endComment'
+import { Link } from "react-router-dom"
 const { TextArea } = Input;
 
 // import { useParams } from 'react-router-dom'
@@ -168,7 +169,7 @@ function CommentAns(props) {
   let author = (
     <div className="ansComment-header">
       <i className="endComment-avatar" style={{ backgroundImage: `url(${item.avatar})` }}></i>
-      <a href={`/user/${item.userId}`}>{item.name}{item.userId === item.commentId ? '(作者)' : ''}</a>
+      <Link to={`/user/${item.userId}`}>{item.name}{item.userId === item.commentId ? '(作者)' : ''}</Link>
     </div>
   )
   let TIME = moment(item.createdAt * 1).endOf().fromNow(true) + '前'

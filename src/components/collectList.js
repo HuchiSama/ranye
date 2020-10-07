@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import moment from 'moment';
-
+import { Link } from "react-router-dom"
 import { Attachment } from './invitation'
 import './user-page.css'
 import { userStore } from '../redux/redux'
@@ -82,7 +82,7 @@ export function CollectQuestion(props) {
           : TIME
         }</span></div>
       <div className="content-div" name="content">
-        <a className="post-title" href={`/post-page/${item.postId}`}>{item.title}</a>
+        <Link className="post-title" to={`/post-page/${item.postId}`}>{item.title}</Link>
         <p className="post-content">
           <span>{item.content}</span>
         </p>
@@ -112,12 +112,12 @@ export function CollectComment(props) {
           : TIME
         }</span></div>
       <div className="content-div" name="content">
-        <a className="post-title" href={`/post-page/${item.postId}`}>{item.title}</a>
+        <Link className="post-title" to={`/post-page/${item.postId}`}>{item.title}</Link>
       </div>
       <div className="commenter-info dynamic-comment" >
         <i className="commenter-avatar" style={{ backgroundImage: `url(${avatar})` }}></i>
         <div className="commenter-flag">
-          <a className="commenter-name" href={`/user/${item.userId}`}>{item.name}</a>
+          <Link className="commenter-name" to={`/user/${item.userId}`}>{item.name}</Link>
           <span className="commenter-sign">{item.sign}</span>
           <Attachment state={state} post={item} type='comment' />
         </div>

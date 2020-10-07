@@ -2,6 +2,7 @@ import React, { createRef } from 'react'
 import { navStore, signStore } from '../redux/redux'
 import axios from 'axios'
 import { withRouter } from 'react-router-dom'
+import { Link } from "react-router-dom"
 // import signStore from '../redux/redux'
 class Form extends React.Component {
 
@@ -149,10 +150,10 @@ class Form extends React.Component {
           <div className="redirector">
             {props.form === 'signin'
               ? <>
-                <a href="/sign_up" className="zhuce" onClick={this.toSignUp}>注册新用户</a>
-                <a href="/lossPas" className="lossPas">忘记密码？</a>
+                <Link to="/sign_up" className="zhuce" onClick={this.toSignUp}>注册新用户</Link>
+                <Link to="/lossPas" className="lossPas">忘记密码？</Link>
               </>
-              : <a href="/sign" className="zhuce" onClick={this.toSignIn}>返回登陆界面</a>
+              : <Link to="/sign" className="zhuce" onClick={this.toSignIn}>返回登陆界面</Link>
             }
           </div>
           {

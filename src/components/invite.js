@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-
+import { Link } from "react-router-dom"
 import { Button } from 'antd'
 import './user-page.css'
 import { careStore, pageStore } from '../redux/redux'
@@ -103,9 +103,9 @@ function InviteItem({ invite }) {
   }, [id, invite])
   return (
     <div className="invite-item">
-      <a href={`/user/${invite.careId}`}><i style={{ backgroundImage: `url(${invite.avatar})` }} className="invite-avatar"></i></a>
+      <Link to={`/user/${invite.careId}`}><i style={{ backgroundImage: `url(${invite.avatar})` }} className="invite-avatar"></i></Link>
       <div className="invite-userInfo">
-        <a href={`/user/${invite.careId}`}><h4>{invite.careName}<span>  -  {invite.industry}</span></h4></a>
+        <Link to={`/user/${invite.careId}`}><h4>{invite.careName}<span>  -  {invite.industry}</span></h4></Link>
         <span>{invite.sign}</span>
       </div>
       {complete

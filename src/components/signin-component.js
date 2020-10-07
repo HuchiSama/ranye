@@ -6,6 +6,7 @@ import { signStore } from '../redux/redux.js'
 import './signin-component.css'
 import Footer from './footer'
 import Sign from './sign'
+import { Link } from "react-router-dom"
 
 export default function Login() {
   let [state, setState] = useState(signStore.getState())
@@ -32,7 +33,7 @@ function Success(props) {
       <div className={'suc-transition success'}>
         <img src="./images/loading.gif" alt="注册成功" />
         <label className="label-visi">
-          <span>注册成功！ </span> 点击 <a href="./sign">返回登陆界面</a>
+          <span>注册成功！ </span> 点击 <Link to="/sign">返回登陆界面</Link>
         </label>
       </div>
     </div>

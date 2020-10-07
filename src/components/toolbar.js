@@ -3,7 +3,7 @@ import axios from 'axios'
 import { SyncOutlined, EditOutlined, ProjectFilled, StarFilled, HeartFilled, FileFilled, } from '@ant-design/icons'
 import { homeStore, userStore, navStore } from '../redux/redux'
 import { withRouter } from 'react-router-dom'
-
+import { Link } from "react-router-dom"
 
 export default function () {
   let [data, setData] = useState(homeStore.getState())
@@ -33,10 +33,10 @@ function ToolbarHead(props) {
   return (
     <span>
       {cookieUser !== undefined
-        ? <>欢迎用户 <a href={'/user/' + user.userId} className="denglu-user">{cookieUser}</a>
-          <a href="/sign" className="dengchu" onClick={signOut}>登出</a></>
+        ? <>欢迎用户 <Link to={'/user/' + user.userId} className="denglu-user">{cookieUser}</Link>
+          <Link to="/sign" className="dengchu" onClick={signOut}>登出</Link></>
         : <>当前处于未登录状态
-          <a href="/sign" className="dengchu">登录/注册</a></>
+          <Link to="/sign" className="dengchu">登录/注册</Link></>
       }
     </span>
   )
@@ -209,7 +209,7 @@ export function Recommend() {
         {recommendList.slice(0, 15).map(item => {
           return (
             <li key={item.postId}>
-              <a href={"/post-page/" + item.postId} title={item.title}>{item.title}</a>
+              <Link to={"/post-page/" + item.postId} title={item.title}>{item.title}</Link>
             </li>
           )
         })

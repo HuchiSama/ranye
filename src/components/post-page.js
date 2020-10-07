@@ -7,7 +7,6 @@ import { FormOutlined, MessageFilled, FireFilled, UserAddOutlined } from '@ant-d
 import { pageStore, navStore } from '../redux/redux'
 // var POST_DATA
 import Nav from '../components/header-nav'
-
 import moment from 'moment';
 import Invite from './invite'
 

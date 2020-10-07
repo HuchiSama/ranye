@@ -9,6 +9,7 @@ import { careStore, userStore, navStore } from '../redux/redux'
 import { useParams } from 'react-router-dom'
 // import PostsFooter from './postfooter'
 import { AttentionQuestion } from './user-container'
+import { Link } from "react-router-dom"
 
 
 export default function AttentionDynamic(props) {
@@ -119,15 +120,15 @@ function CaresList(props) {
         let careBloon = myCares.find(it => it.careId === item.userId)
         return (
           <li key={item.createdAt} className="careList">
-            <div><a href={'/user/' + item.userId}><i style={{ backgroundImage: `url(${item.avatar})` }} className="careAvatar"></i></a></div>
+            <div><Link to={'/user/' + item.userId}><i style={{ backgroundImage: `url(${item.avatar})` }} className="careAvatar"></i></Link></div>
             <div>
-              <a href={'/user/' + item.userId} className="cares-name">
+              <Link to={'/user/' + item.userId} className="cares-name">
                 <h3>{item.name}</h3>
                 {item.sex === 'man'
                   ? <ManOutlined style={{ marginLeft: '15px', color: '#0084FF' }} />
                   : <WomanOutlined style={{ marginLeft: '15px', color: '#e49eab' }} />
                 }
-              </a>
+              </Link>
               <span className="careSign">{item.sign}</span>
               <ul className="careinfo">
                 <li><span>{item.commentCount} 回答</span></li>
@@ -148,69 +149,3 @@ function CaresList(props) {
     </>
   )
 }
-
-// function ReceivesList(props) {
-//   let { id } = useParams()
-//   let [state, setState] = useState(careStore.getState() || {})
-//   let { cares = [] } = state
-//   useEffect(() => {
-//     axios.get(`/api/get-care/${id}`)
-//       .then(res => {
-//         let data = res.data
-//         careStore.dispatch({
-//           type: 'getCare',
-//           cares: data.myCares,
-//           ...data
-//         })
-//       })
-
-//     let uns = careStore.subscribe(() => setState(careStore.getState()))
-//     return () => uns()
-//   }, [id])
-
-//   let enterText = useCallback((e) => {
-//     e.target.innerText = '取消关注'
-//   }, [state])
-//   let leaveTXet = useCallback((e) => {
-//     e.target.innerText = '已关注'
-//   }, [state])
-//   // debugger
-//   let updateCare = useCallback(({ type, item }) => {
-
-//     careStore.dispatch({
-//       type: 'updateCare',
-//       id: item.userId,
-//     })
-
-//     axios.post('/api/care', { type, careId: item.userId })
-//   }, [id])
-
-//   return (
-//     <>
-//       {state.itCaresList && state.itCaresList.map(item => {
-//         let careBloon = cares.find(it => it.careId === item.userId)
-//         return (
-//           <li key={item.createdAt} className="careList">
-//             <div><a href={'/user/' + item.userId}><i style={{ backgroundImage: `url(${item.avatar})` }} className="careAvatar"></i></a></div>
-//             <div>
-//               <a href={'/user/' + item.userId}><h3>{item.name}</h3></a>
-//               <span className="careSign">{item.sign}</span>
-//               <ul className="careinfo">
-//                 <li><span>{item.commentCount} 回答</span></li>
-//                 <li><span>{item.agree} 赞同</span></li>
-//                 <li><span>{item.fans} 关注者</span></li>
-//               </ul>
-//             </div>
-//             <div className="careButton">
-//               {careBloon
-//                 ? <button className="active" onMouseEnter={enterText} onMouseLeave={leaveTXet} onClick={() => updateCare({ type: 'reCare', item: item })}>已关注</button>
-//                 : <button className="unactive" onClick={() => updateCare({ type: 'toCare', item: item })}><CheckCircleFilled /> 关注他</button>
-//               }
-//             </div>
-//           </li>
-//         )
-//       })
-//       }
-//     </>
-//   )
-// }

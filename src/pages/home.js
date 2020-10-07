@@ -5,6 +5,7 @@ import { homeStore, navStore } from '../redux/redux'
 import Container from '../components/body-container'
 import axios from 'axios'
 import { SearchOutlined } from '@ant-design/icons'
+import { Link } from "react-router-dom"
 export default function () {
   let [state, setState] = useState(homeStore.getState())
   // debugger
@@ -57,13 +58,13 @@ function HomeNavChild({ state }) {
   }, [state])
   return (
     <div className="top-nav home-slider-nav">
-      <a href="/" className="home-logo">
+      <Link to="/" className="home-logo">
         <img src="/images/icon2.jpg" alt="zhi 呼" />
-      </a>
+      </Link>
       <ul className="home-list">
-        <li><a href="/">推荐</a></li>
-        <li><a href="/">关注</a></li>
-        <li><a href="/">热榜</a></li>
+        <li><Link to="/">推荐</Link></li>
+        <li><Link to="/">关注</Link></li>
+        <li><Link to="/">热榜</Link></li>
       </ul>
       <div className="search-div">
         <label className="search-label">
