@@ -7,17 +7,17 @@ import moment from 'moment';
 import { Link } from "react-router-dom"
 
 export default function () {
-  let [state, setState] = useState(homeStore.getState())
+  // let [state, setState] = useState(homeStore.getState())
 
-  useEffect(() => {
-    let uns = homeStore.subscribe(() => setState(homeStore.getState()))
+  // useEffect(() => {
+  //   let uns = homeStore.subscribe(() => setState(homeStore.getState()))
 
-    return () => uns()
-  }, [])
-
+  //   return () => uns()
+  // }, [])
+  // debugger
   return (
     <div className="invitation">
-      <PostMain state={state} />
+      <PostMain />
       <Over />
     </div>
   )
@@ -83,45 +83,54 @@ export function Attachment(props) {
   )
 }
 
-function PostMain(props) {
-  let data = props.state
-  let postCount = data.postCount
-  let [posts, upPosts] = useState(data.posts || [])
+function PostMain() {
+  let [state, setState] = useState(homeStore.getState())
+  let [posts, upPosts] = useState([])
   useEffect(() => {
-    upPosts(homeStore.getState().posts || [])
-  }, [postCount, props])
+    axios.get('/api/home-data').then(res => {
+      let initial = res.data
+      homeStore.dispatch({
+        ...initial,
+        type: 'getData',
+        posts: initial.posts.filter(it => it.status !== 'delete'),
+      })
+    })
+    let uns = homeStore.subscribe(() => {
+      setState(homeStore.getState())
+      upPosts(homeStore.getState().posts || [])
+    })
+    return () => uns()
+  }, [])
+
   let postIdx = -1
   return (
     <ul className="posts">
       {
         posts.map(post => {
-          if (post.status !== 'delete') {
-            let time = post.createdAt * 1
-            let TIME = moment(time).endOf().fromNow(true) + '前'
-            postIdx++
-            return (
-              <li key={post.postId}>
-                <div className="user-date">
-                  <Link to={`/user/${post.posterId}`}><img alt="" style={{ backgroundImage: `url(${post.avatar})` }} className="userAvatar" /></Link>
-                  <span className="post-username"><Link to={`/user/${post.posterId}`}>{post.name}</Link>  ,<span className="post-time">  发布于
+          let time = post.createdAt * 1
+          let TIME = moment(time).endOf().fromNow(true) + '前'
+          ++postIdx
+          return (
+            <li key={post.postId}>
+              <div className="user-date">
+                <Link to={`/user/${post.posterId}`}><img alt="" style={{ backgroundImage: `url(${post.avatar})` }} className="userAvatar" /></Link>
+                <span className="post-username"><Link to={`/user/${post.posterId}`}>{post.name}</Link>  ,<span className="post-time">  发布于
                   {parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ?
-                      moment(time).format("YYYY-MM-DD HH:mm:ss")
-                      : TIME
-                    }
-                  </span></span>
-                  <Attachment state={props.state} post={post} type='post' />
-                </div>
-                <div className="content-div" name="content">
-                  <Link className="post-title" to={`/post-page/${post.postId}`}>{post.title}</Link>
-                  <p className="post-content">
-                    <span>{post.content}</span>
-                  </p>
-                </div>
-                <PostsFooter post={post} idx={postIdx} type="question" state={data} />
-              </li>
-            )
-          }
-          return ""
+                    moment(time).format("YYYY-MM-DD HH:mm:ss")
+                    : TIME
+                  }
+                </span></span>
+                <Attachment state={state} post={post} type='post' />
+              </div>
+              <div className="content-div" name="content">
+                <Link className="post-title" to={`/post-page/${post.postId}`}>{post.title}</Link>
+                <p className="post-content">
+                  <span>{post.content}</span>
+                </p>
+              </div>
+              <PostsFooter post={post} idx={postIdx} type="question" state={state} />
+            </li>
+          )
         })
       }
     </ul>

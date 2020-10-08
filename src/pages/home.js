@@ -16,7 +16,8 @@ export default function () {
       homeStore.dispatch({
         type: 'getData',
         ...initial,
-        postCount: initial.posts.length,
+        posts: initial.posts.filter(it => it.status !== 'delete'),
+        // postCount: initial.postCount,
       })
     })
     let uns = homeStore.subscribe(() => setState(homeStore.getState()))

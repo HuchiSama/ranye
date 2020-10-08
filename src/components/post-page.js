@@ -104,7 +104,7 @@ function PostTitle(props) {
     let span = document.querySelector('.post-content span')
     if (fold) {
       p.style.display = 'block'
-      p.style.height = span.offsetHeight + 'px'
+      p.style.height = span.offsetHeight + 3 + 'px'
       setFlod(false)
     } else {
       p.style.display = '-webkit-box'

@@ -23,7 +23,7 @@ import {
 
 const App = () => (
   <div className="App">
-    <Router basename="/api">
+    <Router>
       <Switch>
         <Route exact path="/">
           <Home />

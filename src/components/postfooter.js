@@ -15,7 +15,7 @@ function useSelectState(props) {
   let [poorActive, setPoor] = useState()
   let [collectActive, setCollect] = useState()
   let [favoriteActive, setFavorite] = useState()
-  // debugger
+  debugger
   useEffect(() => {
     //首页
     if (ques) {
@@ -159,7 +159,7 @@ export default function PostsFooter(props) {
     if (span[idx] && span[idx].offsetHeight > 44) {
       let p = document.querySelectorAll('[name="content"] p')[idx]
       p.classList.add('flodContent')
-      p.style.height = ques ? '52px' : '42px'
+      p.style.height = ques ? '52px' : '40px'
       setHide(true)
     }
   }, [idx, ques])
@@ -170,11 +170,11 @@ export default function PostsFooter(props) {
     let span = document.querySelectorAll('[name="content"] p span')
     if (!arr.includes('flodContent')) {
       p.classList.add('flodContent')
-      p.style.height = ques ? '52px' : '42px'
+      p.style.height = ques ? '52px' : '40px'
       setFold(true)
     } else {
       p.classList.remove('flodContent')
-      p.style.height = span[idx].offsetHeight + 2 + "px"
+      p.style.height = span[idx].offsetHeight + 5 + "px"
       setFold(false)
     }
   }, [idx])

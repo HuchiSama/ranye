@@ -132,7 +132,7 @@ export function UserSign(props) {
   let data = props.data || {}
   // debugger
   //更新签名
-
+  let user = data.user || {}
   let signChange = useCallback((e) => {
     e.stopPropagation()
     if (data.cookieUser === undefined) {
@@ -164,7 +164,7 @@ export function UserSign(props) {
     <div className="user-sign">
       <i className="el-icon-edit" onClick={signChange}><EditOutlined style={{ fontSize: '16px', marginRight: '8px' }} /> </i>
       {data.cookieUser
-        ? <span className="user-sign-text" onInput={signInput}>{data.user ? data.user.sign : data.poster.sign}</span>
+        ? <span className="user-sign-text" onInput={signInput}>{user ? user.sign : data.poster.sign}</span>
         : <span>当前还未登录，赶快前往登录吧！</span>
       }
     </div>
