@@ -774,16 +774,16 @@ app.route('/api/endComment/:id')
   })
 
 //检测登陆状态
-app.use((req, res, next) => {
-  let cookieUser = req.signedCookies.user
-  if (cookieUser === undefined) {
-    console.log('未登录')
-    res.status(401)
-    res.end('未登录')
-  } else {
-    next()
-  }
-})
+// app.use((req, res, next) => {
+//   let cookieUser = req.signedCookies.user
+//   if (cookieUser === undefined) {
+//     console.log('未登录')
+//     res.status(400)
+//     res.end('未登录')
+//   } else {
+//     next()
+//   }
+// })
 
 //邀请
 app.get('/api/invite/:id', async (req, res, next) => {
