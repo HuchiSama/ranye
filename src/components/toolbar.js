@@ -4,6 +4,7 @@ import { SyncOutlined, EditOutlined, ProjectFilled, StarFilled, HeartFilled, Fil
 import { homeStore, userStore, navStore } from '../redux/redux'
 import { withRouter } from 'react-router-dom'
 import { Link } from "react-router-dom"
+import { Skeleton } from 'antd';
 
 export default function () {
   let [data, setData] = useState(homeStore.getState())
@@ -174,7 +175,8 @@ export function UserSign(props) {
 
 export function Recommend() {
   let [data, upData] = useState(homeStore.getState())
-  // debugger
+  let [loading, setLoading] = useState(true)
+
   // let [divTop, upTop] = useState(0)
   useEffect(() => {
     //请求数据
@@ -184,22 +186,14 @@ export function Recommend() {
         type: 'getData',
         ...initial
       })
+      setLoading(false)
     })
-
-    // upTop(window.innerHeight)
-    // recommendScoll()
-    // let recommendDIV = document.querySelector('.recommend')
-    // window.onmousewheel = (e) => {
-    //   if (e.wheelDelta > 0 && window.scrollY === 0) {
-    //     recommendDIV.scrollTop = 0
-    //   }
-    // }
 
     let uns = homeStore.subscribe(() => upData(homeStore.getState()))
     return () => uns()
   }, [])
 
-  let recommend = data.recommend || []
+  let recommend = data.recommend || new Array(15).fill('')
   let recommendList = recommend.filter(it => it.status !== 'delete')
 
   return (
@@ -209,7 +203,9 @@ export function Recommend() {
         {recommendList.slice(0, 15).map(item => {
           return (
             <li key={item.postId}>
-              <Link to={"/post-page/" + item.postId} title={item.title}>{item.title}</Link>
+              <Skeleton active round paragraph={false} loading={loading}>
+                <Link to={"/post-page/" + item.postId} title={item.title}>{item.title}</Link>
+              </Skeleton>
             </li>
           )
         })

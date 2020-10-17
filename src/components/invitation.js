@@ -5,6 +5,7 @@ import PostsFooter from './postfooter'
 import { useParams } from 'react-router-dom'
 import moment from 'moment';
 import { Link } from "react-router-dom"
+import { Skeleton } from 'antd';
 
 export default function () {
   // let [state, setState] = useState(homeStore.getState())
@@ -85,7 +86,8 @@ export function Attachment(props) {
 
 function PostMain() {
   let [state, setState] = useState(homeStore.getState())
-  let [posts, upPosts] = useState([])
+  let [posts, upPosts] = useState(new Array(6).fill(''))
+  let [loading, setLoading] = useState(true)
   useEffect(() => {
     axios.get('/api/home-data').then(res => {
       let initial = res.data
@@ -94,6 +96,7 @@ function PostMain() {
         type: 'getData',
         posts: initial.posts.filter(it => it.status !== 'delete'),
       })
+      setLoading(false)
     })
     let uns = homeStore.subscribe(() => {
       setState(homeStore.getState())
@@ -110,27 +113,33 @@ function PostMain() {
           let time = post.createdAt * 1
           let TIME = moment(time).endOf().fromNow(true) + '前'
           ++postIdx
-          return (
-            <li key={post.postId}>
-              <div className="user-date">
-                <Link to={`/user/${post.posterId}`}><img alt="" style={{ backgroundImage: `url(${post.avatar})` }} className="userAvatar" /></Link>
-                <span className="post-username"><Link to={`/user/${post.posterId}`}>{post.name}</Link>  ,<span className="post-time">  发布于
-                  {parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ?
-                    moment(time).format("YYYY-MM-DD HH:mm:ss")
-                    : TIME
-                  }
-                </span></span>
-                <Attachment state={state} post={post} type='post' />
-              </div>
-              <div className="content-div" name="content">
-                <Link className="post-title" to={`/post-page/${post.postId}`}>{post.title}</Link>
-                <p className="post-content">
-                  <span>{post.content}</span>
-                </p>
-              </div>
-              <PostsFooter post={post} idx={postIdx} type="question" state={state} />
-            </li>
-          )
+          if (post.status !== 'delete') {
+            return (
+              <li key={post.postId}>
+                <Skeleton active round loading={loading}>
+                  <div className="user-date">
+                    <Link to={`/user/${post.posterId}`}><img alt="" style={{ backgroundImage: `url(${post.avatar})` }} className="userAvatar" /></Link>
+                    <span className="post-username"><Link to={`/user/${post.posterId}`}>{post.name}</Link>  ,<span className="post-time">  发布于
+                    {parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ?
+                        moment(time).format("YYYY-MM-DD HH:mm:ss")
+                        : TIME
+                      }
+                    </span></span>
+                    <Attachment state={state} post={post} type='post' />
+                  </div>
+                  <div className="content-div" name="content">
+                    <Link className="post-title" to={`/post-page/${post.postId}`}>{post.title}</Link>
+                    <p className="post-content flodContent">
+                      <span>{post.content}</span>
+                    </p>
+                  </div>
+                  <PostsFooter post={post} idx={postIdx} type="question" state={state} />
+                </Skeleton>
+              </li>
+            )
+          } else {
+            return null
+          }
         })
       }
     </ul>

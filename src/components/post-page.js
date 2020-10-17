@@ -9,12 +9,13 @@ import { pageStore, navStore } from '../redux/redux'
 import Nav from '../components/header-nav'
 import moment from 'moment';
 import Invite from './invite'
-
+import { Skeleton } from 'antd';
 
 export default function () {
   let { id = 1 } = useParams()
   let [data, Update] = useState(pageStore.getState())
   let [invite, setInvite] = useState(false)
+  let [loading, setLoading] = useState(true)
   useEffect(() => {
     let uns = pageStore.subscribe(() => setInvite(pageStore.getState().invite))
     return () => uns()
@@ -26,6 +27,7 @@ export default function () {
         type: 'getInitial',
         ...result.data,
       })
+      setLoading(false)
     }
     getInitial()
     let uns = pageStore.subscribe(() => Update(pageStore.getState()))
@@ -39,10 +41,10 @@ export default function () {
         <PostNavChild data={data} />
       </Nav>
       <PostInfo>
-        <PostTitle data={data} />
+        <PostTitle data={data} loading={loading} />
         <Poster data={data} />
       </PostInfo>
-      <PostContainer data={data} />
+      <PostContainer data={data} loading={loading} />
       {invite && <Invite id={id} />}
     </>
   )
@@ -94,7 +96,7 @@ function PostTitle(props) {
   useEffect(() => {
     let span = document.querySelector('.post-content span')
     let p = document.querySelector('.post-content')
-    if (span.offsetHeight > 72) {
+    if (span && span.offsetHeight > 72) {
       p.style.height = '72px'
       upHide(true)
     }
@@ -127,8 +129,12 @@ function PostTitle(props) {
   }, [data])
   return (
     <div className="post-main">
-      <h1>{post.title}</h1>
-      <p className="post-content"><span>{post.content}</span></p>
+      <Skeleton title={{ width: 300 }} paragraph={false} loading={props.loading} round>
+        <h1>{post.title}</h1>
+      </Skeleton>
+      <Skeleton active loading={props.loading} paragraph={{ rows: 2 }} round title={false}>
+        <p className="post-content"><span>{post.content}</span></p>
+      </Skeleton >
       <div className="post-footer-list">
         <Attention data={data} />
         <div className="answer" onClick={writeAnswer}><FormOutlined />写回答</div>
@@ -145,6 +151,7 @@ function PostTitle(props) {
           }
         </ul>
       </div>
+
     </div>
   )
 }

@@ -87,6 +87,8 @@ function useGetChat(state) {
           type: 'getInitial',
           ...initial,
         })
+      }).catch(err => {
+        console.dir(err)
       })
   }, [])
   useEffect(() => {

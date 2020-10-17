@@ -15,7 +15,6 @@ function useSelectState(props) {
   let [poorActive, setPoor] = useState()
   let [collectActive, setCollect] = useState()
   let [favoriteActive, setFavorite] = useState()
-  debugger
   useEffect(() => {
     //首页
     if (ques) {

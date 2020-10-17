@@ -23,6 +23,7 @@ export function EndCommentList({ item, commentId, state, ansCommentId }) {
   let inputComment = useCallback((e) => {
     setValue(e.target.value)
   }, [])
+
   let sendComment = useCallback(() => {
     setEndComment(!endComment)
   }, [endComment])

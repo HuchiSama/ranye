@@ -10,8 +10,9 @@ import axios from 'axios'
 import CareMessage from './care-message'
 import { withRouter } from 'react-router-dom'
 import { Link } from "react-router-dom"
+import { Skeleton } from 'antd';
 
-export default function () {
+export default function (props) {
   let [data, Update] = useState(pageStore.getState())
   useEffect(() => {
     let uns = pageStore.subscribe(() => Update(pageStore.getState()))
@@ -19,7 +20,7 @@ export default function () {
   })
   return (
     <div className="body-container post-container">
-      <Comment data={data} />
+      <Comment data={data} loading={props.loading} />
       <ToolBar data={data} />
     </div>
   )
@@ -28,18 +29,12 @@ export default function () {
 
 function Comment(props) {
   let commenterInfo = props.data.commenterInfo || []
-  let commentNoamal = commenterInfo.filter(it => it.status !== 'delete')
   return (
     <div className="invitation">
       {props.data.writeAnswer ? <AnswerDiv /> : ''}
       <div className="comment-main">
         <ul className="comments-list">
-          {commentNoamal.length !== 0
-            ? <CommentList commenterInfo={commenterInfo} />
-            : <li style={{ color: '#8590A6' }}>
-              当前帖子还没有回答，赶紧去添加回答吧！
-              </li>
-          }
+          <CommentList commenterInfo={commenterInfo} loading={props.loading} />
         </ul>
       </div>
       <Over />
@@ -84,25 +79,37 @@ function AnswerDiv() {
   )
 }
 
-function CommentList() {
+function CommentList(props) {
   let [data, Update] = useState(pageStore.getState())
+
   useEffect(() => {
     let uns = pageStore.subscribe(() => Update(pageStore.getState()))
     return () => uns()
   }, [])
   // debugger
 
-  let commenterInfo = data.commenterInfo
+  let commenterInfo = data.commenterInfo || new Array(5).fill('')
+  let commentNoamal = commenterInfo.filter(it => it.status !== 'delete')
+
   let commentIdx = -1
-  return (
-    commenterInfo.map((item) => {
-      if (item.status !== 'delete') {
+
+
+  if (!props.loading && commentNoamal.length === 0) {
+    return <li style={{ color: '#8590A6' }}>
+      当前帖子还没有回答，赶紧去添加回答吧！
+      </li>
+  } else {
+    return (
+      commentNoamal.map((item) => {
         commentIdx++
-        return <CommentItem item={item} data={data} idx={commentIdx} key={item.createdAt} />
-      }
-      return ''
-    })
-  )
+        return < Skeleton loading={props.loading} >
+          <CommentItem item={item} data={data} idx={commentIdx} key={item.createdAt} />
+        </Skeleton>
+
+      })
+    )
+  }
+
 }
 
 function CommentItem(props) {
@@ -111,7 +118,6 @@ function CommentItem(props) {
   let idx = props.idx
   let time = item.createdAt * 1
   let TIME = moment(time).endOf().fromNow(true) + '前'
-
 
   return (
     <li key={item.createdAt}>
