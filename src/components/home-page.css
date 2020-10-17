@@ -124,9 +124,9 @@ ul.home-list li>a{
 .posts{
   background: white;
   width: 694px;
-  /* height: 100%; */
+  margin-bottom:0;
   padding:20px 20px ;
-  box-shadow: 0 0 5px 2px #dcdcdcad;
+  /* box-shadow: 0 0 5px 2px #dcdcdcad; */
 }
 .toolbar{
   margin-left:10px ;
@@ -221,6 +221,21 @@ ul.home-list li>a{
   height: 10px;
   border: 8px #cccccc solid;
 }
+
+.invitation {
+  box-shadow:0 0 5px 2px #dcdcdcad ;
+  position: relative;
+  margin-bottom:50px;
+  height: 100%;
+}
+
+.invitation .home-list{
+background:white;
+margin: 0;
+justify-content:flex-start;
+border-bottom:1px #ecececa1 solid;
+}
+
 .post-username{
   color: #444444;
   font-size: 16px;
@@ -325,7 +340,10 @@ ul.home-list li>a{
   padding: 0 8px;
 }
 .over{
-  margin: 20px auto;
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  right: 0;
   text-align: center;
   color: #929292;
 }
@@ -607,7 +625,7 @@ button.likeActive:hover{
   -webkit-box-orient:vertical; 
   -webkit-line-clamp:2;
   overflow:hidden;
-  height: 52px;
+  /* height: 52px; */
   text-overflow:ellipsis;
   transition: height 0.3s;
 }

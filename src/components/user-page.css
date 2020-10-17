@@ -52,6 +52,7 @@
   background-position: 50%;
   background-repeat: no-repeat;
   background-size: cover;
+  background-color: white;
 }
 .User-data{
   position: relative;
@@ -546,4 +547,9 @@ li.recare:hover{
 }
 .user-ndv-slider .poster-interactive{
   margin-bottom:0;
+}
+
+.user-container .over{
+  position: unset;
+  margin: 20px auto;
 }

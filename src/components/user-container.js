@@ -10,6 +10,7 @@ import PostsFooter from './postfooter'
 import AttentionDynamic from './caresList'
 import CollectList, { CollectQuestion, CollectComment } from './collectList'
 import { Link } from "react-router-dom"
+import { Skeleton } from 'antd';
 
 export default function () {
   return (
@@ -41,7 +42,7 @@ export function UserMain({ dynamic = true }) {
   }, [])
 
   return (
-    <div className="invitation">
+    <div >
       <div className="user-main">
         <ul className="user-main-header">
           <li onClick={() => getMain(0)}>动态</li>
@@ -91,25 +92,31 @@ function DynamicList(props) {
 
 function PostMain(props) {
   let active = props.active
-  let [state, setState] = useState(userStore.getState() || {})
+  let [state, setState] = useState(userStore.getState())
   let { attentionDynamic = [], commentDynamic = [], likeDynamic = [], postDynamic = [], collectComment = [], collectQues = [] } = state
-
+  let [loading, setLoading] = useState(true)
   let dynamic = [...attentionDynamic, ...commentDynamic, ...likeDynamic, ...postDynamic, ...collectComment, ...collectQues]
   let dynamicArray = [commentDynamic, postDynamic, likeDynamic, attentionDynamic, [...collectComment, ...collectQues]]
 
   useEffect(() => {
+    if (state.attentionDynamic || state.commentDynamic || state.likeDynamic) {
+      setLoading(false)
+    }
+  }, [state])
+  useEffect(() => {
     let uns = userStore.subscribe(() => setState(userStore.getState()))
     return () => uns()
   }, [])
-
+  // if (!state) state = {}
   // console.log(state)
   // debugger
-  let dynamicList
-  if (active === 0) {
+  let dynamicList = loading ? new Array(6).fill('') : []
+  if (!loading && active === 0) {
     dynamicList = sortAtTime(dynamic)
-  } else {
+  } else if (!loading && active !== 0) {
     dynamicList = sortAtTime(dynamicArray[active - 1])
   }
+
   let Idx = -1
   return (
     <>
@@ -124,7 +131,7 @@ function PostMain(props) {
                   if (item.status !== 'delete') {
                     Idx++
                     return (
-                      <Fragment key={i}>
+                      <Skeleton key={i} loading={loading}>
                         {item.style === 'comment' && <AnswerDynamic item={item} state={state} idx={Idx} />}
                         {item.style === 'post' && <PostDynamic item={item} state={state} idx={Idx} />}
                         {item.style === 'likeComment' && <LikeDynamic item={item} state={state} idx={Idx} />}
@@ -135,7 +142,7 @@ function PostMain(props) {
                             {item.type === 'comment' && <CollectComment item={item} state={state} idx={Idx} />}
                           </ >
                         }
-                      </Fragment>
+                      </Skeleton>
                     )
                   }
                   return ""

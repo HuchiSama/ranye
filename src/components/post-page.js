@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import './post.css'
@@ -96,11 +96,12 @@ function PostTitle(props) {
   useEffect(() => {
     let span = document.querySelector('.post-content span')
     let p = document.querySelector('.post-content')
-    if (span && span.offsetHeight > 72) {
+    if (span && span.offsetHeight >= 72) {
       p.style.height = '72px'
       upHide(true)
     }
-  }, [data])
+  }, [props.loading])
+
   let foldCutover = useCallback(() => {
     let p = document.querySelector('.post-content')
     let span = document.querySelector('.post-content span')

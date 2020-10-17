@@ -15,7 +15,8 @@ import { Link } from "react-router-dom"
 export default function AttentionDynamic(props) {
   let dynamicList = props.dynamicList
   let state = props.state
-  let isMe = state.cookieUser === state.userInfo.name
+  let userInfo = state.userInfo || {}
+  let isMe = state.cookieUser === userInfo.name
   let [active, setActive] = useState(userStore.getState().careActive || 0)
   useEffect(() => {
     let uns = userStore.subscribe(() => setActive(userStore.getState().careActive))

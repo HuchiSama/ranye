@@ -155,10 +155,10 @@ export default function PostsFooter(props) {
   let [hide, setHide] = useState(false)  // 显示/隐藏按钮
   useEffect(() => {
     let span = document.querySelectorAll('[name="content"] p span')
-    if (span[idx] && span[idx].offsetHeight > 44) {
+    if (span[idx] && span[idx].offsetHeight > 50) {
       let p = document.querySelectorAll('[name="content"] p')[idx]
       p.classList.add('flodContent')
-      p.style.height = ques ? '52px' : '40px'
+      p.style.height = ques ? '3.2em' : '2.68em'
       setHide(true)
     }
   }, [idx, ques])
@@ -169,7 +169,7 @@ export default function PostsFooter(props) {
     let span = document.querySelectorAll('[name="content"] p span')
     if (!arr.includes('flodContent')) {
       p.classList.add('flodContent')
-      p.style.height = ques ? '52px' : '40px'
+      p.style.height = ques ? '3.2em' : '2.68em'
       setFold(true)
     } else {
       p.classList.remove('flodContent')

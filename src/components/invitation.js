@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import moment from 'moment';
 import { Link } from "react-router-dom"
 import { Skeleton } from 'antd';
+import { ContainerList } from '../pages/home'
 
 export default function () {
   // let [state, setState] = useState(homeStore.getState())
@@ -18,6 +19,7 @@ export default function () {
   // debugger
   return (
     <div className="invitation">
+      <ContainerList />
       <PostMain />
       <Over />
     </div>
@@ -112,8 +114,8 @@ function PostMain() {
         posts.map(post => {
           let time = post.createdAt * 1
           let TIME = moment(time).endOf().fromNow(true) + '前'
-          ++postIdx
           if (post.status !== 'delete') {
+            ++postIdx
             return (
               <li key={post.postId}>
                 <Skeleton active round loading={loading}>

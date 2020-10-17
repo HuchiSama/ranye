@@ -5,6 +5,7 @@ import './user-page.css'
 import { userStore, homeStore } from '../redux/redux'
 import EditUser from './edit-userInfo'
 import CareMessage from './care-message'
+import { Skeleton } from 'antd';
 
 export default function () {
 
@@ -20,7 +21,12 @@ export default function () {
 function UserHeader() {
   let [state, setState] = useState({})
   let userInfo = state.userInfo || {}
-
+  let [loading, setLoading] = useState(true)
+  useEffect(() => {
+    if (state.userInfo) {
+      setLoading(false)
+    }
+  }, [state.userInfo])
   useEffect(() => {
     let uns = userStore.subscribe(() => setState(userStore.getState()))
     return () => uns()
@@ -87,30 +93,36 @@ function UserHeader() {
       <div className="user-header">
         <div className="UserCover-bg"></div>
         <div className="User-avatar" style={{ backgroundImage: `url(${avatar})` }} >
-          <input type="file" name="avatar" style={{ display: 'none' }} onChange={avatarCutover} />
-          {hoverAvatar && userInfo.name === state.cookieUser &&
-            <div className="avatarMouseEnter" onClick={inputAvatar}>
-              <CameraOutlined style={{ fontSize: '18px' }} /><span>更换头像</span>
-            </div>
-          }
+          <Skeleton loading={loading} active avatar={{ size: 140, shape: 'square' }} >
+            <input type="file" name="avatar" style={{ display: 'none' }} onChange={avatarCutover} />
+            {hoverAvatar && userInfo.name === state.cookieUser &&
+              <div className="avatarMouseEnter" onClick={inputAvatar}>
+                <CameraOutlined style={{ fontSize: '18px' }} /><span>更换头像</span>
+              </div>
+            }
+          </Skeleton>
         </div>
         <div className={flod ? 'UserDetailed UserDetailed-flod' : 'UserDetailed'}>
           <div className="User-data">
-            <h2>{userInfo.name}</h2>
-            <span className="sign">{userInfo.sign}</span>
-            <UserDataList flod={flod} />
-            <UserBaseData flod={flod} />
+            <Skeleton loading={loading} active round >
+              <h2>{userInfo.name}</h2>
+              <span className="sign">{userInfo.sign}</span>
+              <UserDataList flod={flod} />
+              <UserBaseData flod={flod} />
+            </Skeleton>
           </div>
           <div className="User-data-bottom">
-            {flod
-              ? <span onClick={flodClick}><UpOutlined />  收起详细资料</span>
-              : <span onClick={flodClick}><DownOutlined />  查看详细资料</span>
-            }
-            {state.cookieUser === userInfo.name
-              ? <div className="user-editing" onClick={editState}>编辑个人资料</div>
-              : <div className="other-user"><CareMessage careInfo={state.userInfo} /></div>
-            }
+            <Skeleton loading={loading} active round title={false} paragraph={{ width: [300, 600] }}>
+              {flod
+                ? <span onClick={flodClick}><UpOutlined />  收起详细资料</span>
+                : <span onClick={flodClick}><DownOutlined />  查看详细资料</span>
+              }
+              {state.cookieUser === userInfo.name
+                ? <div className="user-editing" onClick={editState}>编辑个人资料</div>
+                : <div className="other-user"><CareMessage careInfo={state.userInfo} /></div>
+              }
 
+            </Skeleton>
           </div>
         </div>
       </div>

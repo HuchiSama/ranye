@@ -129,8 +129,8 @@ function CommentItem(props) {
           <Attachment state={data} post={item} type='comment' />
         </div>
       </div>
-      <div className="content-div" name="content">
-        <p><span>{item.content}</span></p>
+      <div className="content-div " name="content">
+        <p className="flodContent"><span>{item.content}</span></p>
         <span className="answerAt">
           发布于 &nbsp;
         {parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ?

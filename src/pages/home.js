@@ -62,11 +62,7 @@ function HomeNavChild({ state }) {
       <Link to="/" className="home-logo">
         <img src="/images/icon2.jpg" alt="zhi 呼" />
       </Link>
-      <ul className="home-list">
-        <li><Link to="/">推荐</Link></li>
-        <li><Link to="/">关注</Link></li>
-        <li><Link to="/">热榜</Link></li>
-      </ul>
+      <ContainerList />
       <div className="search-div">
         <label className="search-label">
           <input type="search" name="search" className="search" placeholder="功能尚未完善" />
@@ -75,5 +71,15 @@ function HomeNavChild({ state }) {
         <input type="button" className="question" value="发帖" onClick={postQuestion} />
       </div>
     </div>
+  )
+}
+
+export function ContainerList() {
+  return (
+    <ul className="home-list">
+      <li><Link to="/">推荐</Link></li>
+      <li><Link to="/">关注</Link></li>
+      <li><Link to="/">热榜</Link></li>
+    </ul>
   )
 }
