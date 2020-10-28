@@ -1,18 +1,17 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import './question.css'
 import { homeStore, navStore } from '../redux/redux'
 import axios from 'axios'
-
+import Editor from './editor'
 
 export default function () {
-
+  let [value, setValue] = useState({ html: '', text: '' })
   let submitQus = useCallback(() => {
-
-    let postContent = document.querySelector('.neirong').value
+    // let postContent = document.querySelector('.neirong').value
     let postTitle = document.querySelector('#fileName').value
     let post = {
       title: postTitle,
-      content: postContent
+      content: JSON.stringify(value)
     }
     if (post.title.trim() === '' || post.content.trim() === '') {
       return
@@ -38,15 +37,13 @@ export default function () {
         }
       })
 
-  }, [])
-
+  }, [value])
   let closeQUs = useCallback(() => {
     homeStore.dispatch({
       type: 'question',
       question: false,
     })
   }, [])
-
   return (
     <>
       <label className="clear-qus" onClick={closeQUs}>x</label>
@@ -56,7 +53,8 @@ export default function () {
             <input type="text" id="fileName" placeholder="请输入标题" name="title" />
           </div>
           <section>
-            <textarea className="neirong" contentEditable name="content"></textarea>
+            <Editor setEditValue={setValue} />
+            {/* <textarea className="neirong" contentEditable name="content"></textarea> */}
           </section>
           <label className="qst-submit" onClick={submitQus}>发布问题</label>
         </div>

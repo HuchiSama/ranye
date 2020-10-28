@@ -132,7 +132,9 @@ function PostMain() {
                   <div className="content-div" name="content">
                     <Link className="post-title" to={`/post-page/${post.postId}`}>{post.title}</Link>
                     <p className="post-content flodContent">
-                      <span>{post.content}</span>
+                      <span>{post.content && (
+                        post.content[0] !== '{' ? post.content : JSON.parse(post.content).text)
+                      }</span>
                     </p>
                   </div>
                   <PostsFooter post={post} idx={postIdx} type="question" state={state} />
