@@ -40,6 +40,14 @@ app.get('*', (req, res, next) => {
   }
 })
 
+app.use('*', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Methods', '*')
+  res.header('Access-Control-Max-Age', 864000)
+  next()
+})
+
 var sessionStore = Object.create(null)
 //派发session
 app.use(function sessionMW(req, res, next) {
@@ -92,6 +100,19 @@ server.on('connection', async (ws, req) => {
 })
 
 
+//富文本图片上传
+app.route('/api/edit-Image')
+  .post(uploader.single('upImage'), async (req, res, next) => {
+    let file = req.file
+    // let cookieUser = req.signedCookies.user
+    let targetName = file.path + '-' + file.originalname
+    await fs.promises.rename(file.path, targetName)
+    let imageUrl = '/uploads/' + path.basename(targetName)
+    res.json({
+      errno: 0,
+      data: [imageUrl],
+    })
+  })
 
 
 app.get('/api/home-data', async (req, res, next) => {
@@ -184,7 +205,6 @@ app.route('/api/home_Page/')
       .then(val => {
         nextPostId = val.res + 1
       })    // posts  ID 计数器
-    // console.log(nextPostId)
     await db.run(`INSERT INTO posts VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`, [nextPostId, poster.userId, body.title, body.content, Date.now(), 0, 0, 0, 0, 0, 'normal', Date.now()])
 
     await db.run(`update users set postCount=? where name=?`, [poster.postCount + 1, cookieUser])
