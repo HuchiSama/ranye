@@ -156,7 +156,6 @@ export default function PostsFooter(props) {
   let [hide, setHide] = useState(false)  // 显示/隐藏按钮
   useEffect(() => {
     let span = document.querySelectorAll('[name="content"]> p >span')
-    // if (span[idx]) console.log(span[idx].getBoundingClientRect().height)
     if (span[idx] && span[idx].getBoundingClientRect().height > 50) {
       let p = document.querySelectorAll('[name="content"] >p')[idx]
       p.classList.add('flodContent')
@@ -169,6 +168,9 @@ export default function PostsFooter(props) {
     let p = document.querySelectorAll('[name="content"] >p')[idx]
     let arr = Array.from(p.classList)
     let span = document.querySelectorAll('[name="content"] >p >span')
+    if (arr.includes('post-defaultHeight')) {
+      p.classList.remove('post-defaultHeight')
+    }
     if (!arr.includes('flodContent')) {
       p.classList.add('flodContent')
       p.style.height = ques ? '3.2em' : '2.68em'
