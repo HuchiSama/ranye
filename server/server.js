@@ -1028,7 +1028,9 @@ app.route('/api/user-avatar/')
 app.post('/api/sign-edit/', async (req, res, next) => {
   let body = req.body
   let cookieUser = req.signedCookies.user
-  console.log(body)
+  if (body.user_sign.length === 0) {
+    body.user_sign = '当前还没有签名哦...'
+  }
   await db.run(`update users set sign=? where name=?`, [body.user_sign, cookieUser])
   res.end('')
 })
