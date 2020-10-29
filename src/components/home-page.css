@@ -633,7 +633,7 @@ button.likeActive:hover{
   color: #627799;
 }
 .post-defaultHeight{
-  height: 48px;
+  max-height: 48px;
 }
 
 /**/
