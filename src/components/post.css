@@ -285,20 +285,15 @@ div.post-other-time span{
 }
 .answer-outer{
   background: white;
-  position: relative;
+  /* position: relative; */
   margin-bottom:10px ;
   border-bottom: 1px #EBEBEB solid;
   box-shadow: 0 0 5px 2px #dcdcdcad;
 }
 .editing{
-  display: block;
-  border: none;
-  overflow-x:hidden;
-  resize:none;
   width: 694px;
-  white-space: pre-wrap;
-  height: 196px;
-  padding: 20px 30px;
+  /* height: 196px; */
+  padding: 10px 10px;
   font-size: 16px;
   border-bottom: 1px #EBEBEB solid;
   font-family: inherit;
@@ -580,3 +575,15 @@ li.no-invite{
    margin-left: 30px;
 }
 
+.post-content h1,.post-content h2,.post-content h3,.post-content h4{
+  font-size: 15px;
+}
+.post-content pre xmp{
+  font-size: 14px;
+}
+.content-div img{
+  height: 100%;
+}
+/* .content-div p{
+  height:;
+} */

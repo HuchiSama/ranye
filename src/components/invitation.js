@@ -90,6 +90,7 @@ function PostMain() {
   let [state, setState] = useState(homeStore.getState())
   let [posts, upPosts] = useState(new Array(6).fill(''))
   let [loading, setLoading] = useState(true)
+  let [footer, setFooter] = useState(false)
   useEffect(() => {
     axios.get('/api/home-data').then(res => {
       let initial = res.data
@@ -106,7 +107,15 @@ function PostMain() {
     })
     return () => uns()
   }, [])
+  useEffect(() => {
+    let postContent = document.querySelectorAll('.content-div >p >span')
+    postContent.forEach((it, idx) => {
+      let post = posts[idx].content
+      it.innerHTML = post[0] === "{" ? JSON.parse(post).html : post
+    })
+    if (postContent.length) { setFooter(true) }
 
+  }, [loading])
   let postIdx = -1
   return (
     <ul className="posts">
@@ -131,13 +140,11 @@ function PostMain() {
                   </div>
                   <div className="content-div" name="content">
                     <Link className="post-title" to={`/post-page/${post.postId}`}>{post.title}</Link>
-                    <p className="post-content flodContent">
-                      <span>{post.content && (
-                        post.content[0] !== '{' ? post.content : JSON.parse(post.content).text)
-                      }</span>
+                    <p className="post-content flodContent post-defaultHeight">
+                      <span></span>
                     </p>
                   </div>
-                  <PostsFooter post={post} idx={postIdx} type="question" state={state} />
+                  <PostsFooter post={post} idx={postIdx} type="question" state={state} footer={footer} />
                 </Skeleton>
               </li>
             )

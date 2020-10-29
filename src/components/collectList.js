@@ -5,6 +5,7 @@ import { Attachment } from './invitation'
 import './user-page.css'
 import { userStore } from '../redux/redux'
 import PostsFooter from './postfooter'
+import { Skeleton } from 'antd';
 
 
 export default function CollectList(props) {
@@ -74,6 +75,11 @@ export function CollectQuestion(props) {
   let item = props.item
   let time = (item.likeAt || item.createdAt) * 1
   let TIME = moment(time).endOf().fromNow(true) + '前'
+  let [footer, setFooter] = useState(false)
+
+  useEffect(() => {
+    getContent(item, idx, setFooter)
+  }, [item])
   return (
     <li key={item.likeAt || item.createdAt}>
       <div className="dynamicList-header"><span>收藏了问题</span><span>
@@ -83,11 +89,13 @@ export function CollectQuestion(props) {
         }</span></div>
       <div className="content-div" name="content">
         <Link className="post-title" to={`/post-page/${item.postId}`}>{item.title}</Link>
+        {/* <Skeleton loading={loading}> */}
         <p className="post-content">
-          <span>{item.content}</span>
+          <span>{getContentText(item)}</span>
         </p>
+        {/* </Skeleton> */}
       </div>
-      <PostsFooter type='question' post={item} idx={idx} state={state} />
+      <PostsFooter type='question' post={item} idx={idx} state={state} footer={footer} />
     </li>
   )
 }
@@ -104,6 +112,11 @@ export function CollectComment(props) {
   let time = (item.likeAt || item.createdAt) * 1
   let TIME = moment(time).endOf().fromNow(true) + '前'
   let POST_TIME = moment(item.createdAt * 1).endOf().fromNow(true) + '前'
+  let [footer, setFooter] = useState(false)
+
+  useEffect(() => {
+    getContent(item, idx, setFooter)
+  }, [item])
   return (
     <li key={item.likeAt || item.createdAt}>
       <div className="dynamicList-header"><span>收藏了回答</span><span>
@@ -123,7 +136,9 @@ export function CollectComment(props) {
         </div>
       </div>
       <div className="content-div" name="content">
-        <p><span>{item.content}</span></p>
+        {/* <Skeleton loading={loading}> */}
+        <p><span>{getContentText(item)}</span></p>
+        {/* </Skeleton> */}
         <span className="answerAt">发布于 &nbsp;
         {parseInt(POST_TIME) >= 1 && /天/g.test(POST_TIME) ?
             moment(item.createdAt * 1).format("YYYY-MM-DD HH:mm:ss")
@@ -131,9 +146,27 @@ export function CollectComment(props) {
           }
         </span>
         <div className="commenter-footer">
-          <PostsFooter type={'comment'} comment={item} idx={idx} state={state} />
+          <PostsFooter type={'comment'} comment={item} idx={idx} state={state} footer={footer} />
         </div>
       </div>
     </li>
   )
+}
+function getContentText(item) {
+  if (item.content) {
+    if (item.content[0] !== '{') {
+      return item.content
+    } else {
+      return JSON.parse(item.content).text
+    }
+  }
+  return
+}
+function getContent(item, idx, setFooter) {
+
+  let commentItem = document.querySelectorAll(".content-div >p> span")[idx]
+  if (commentItem && item.content[0] === '{') {
+    commentItem.innerHTML = JSON.parse(item.content).html
+    setFooter(true)
+  }
 }

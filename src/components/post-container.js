@@ -11,7 +11,7 @@ import CareMessage from './care-message'
 import { withRouter } from 'react-router-dom'
 import { Link } from "react-router-dom"
 import { Skeleton } from 'antd';
-
+import Editor from './editor'
 export default function (props) {
   let [data, Update] = useState(pageStore.getState())
   useEffect(() => {
@@ -44,9 +44,10 @@ function Comment(props) {
 //发评论
 function AnswerDiv() {
   let { id } = useParams()
+  let [value, setValue] = useState({ html: '', text: '' })
   let submitAnswer = useCallback(() => {
     let postAnswer = {
-      content: document.querySelector('.editing').value,
+      content: JSON.stringify(value),
       createdAt: Date.now(),
     }
     getNewCommenter()
@@ -68,10 +69,10 @@ function AnswerDiv() {
         })
 
     }
-  }, [id])
+  }, [id, value])
   return (
-    <div className="answer-outer">
-      <textarea className="editing" placeholder="写回答..."></textarea>
+    <div className="answer-outer editing">
+      <Editor setEditValue={setValue} />
       <div className="submit-answer" >
         <span onClick={submitAnswer}>提交回答</span>
       </div>
@@ -118,7 +119,15 @@ function CommentItem(props) {
   let idx = props.idx
   let time = item.createdAt * 1
   let TIME = moment(time).endOf().fromNow(true) + '前'
+  let [footer, setFooter] = useState(false)
 
+  useEffect(() => {
+    let commentItem = document.querySelectorAll(".flodContent >span")[idx]
+    if (commentItem) {
+      commentItem.innerHTML = item.content[0] !== '{' ? item.content : JSON.parse(item.content).html
+      setFooter(true)
+    }
+  }, [item, idx])
   return (
     <li key={item.createdAt}>
       <div className="commenter-info" >
@@ -130,7 +139,7 @@ function CommentItem(props) {
         </div>
       </div>
       <div className="content-div " name="content">
-        <p className="flodContent"><span>{item.content}</span></p>
+        <p className="flodContent"><span></span></p>
         <span className="answerAt">
           发布于 &nbsp;
         {parseInt(TIME) * 1 > 1 && /天/g.test(TIME) ?
@@ -139,7 +148,7 @@ function CommentItem(props) {
           }
         </span>
         <div className="commenter-footer">
-          <PostsFooter comment={item} idx={idx} state={data} />
+          <PostsFooter comment={item} idx={idx} state={data} footer={footer} />
         </div>
       </div>
 
@@ -213,3 +222,13 @@ const PosterInfo = withRouter(Info)
 //     <></>
 //   )
 // }
+function getContent(item) {
+  if (item.content) {
+    if (item.content[0] !== '{') {
+      return item.content
+    } else {
+      return JSON.parse(item.content).text
+    }
+  }
+  return
+}

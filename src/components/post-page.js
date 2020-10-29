@@ -83,7 +83,7 @@ function PostTitle(props) {
   let post = props.data.post || {}
   let [hide, upHide] = useState(false)
   let [fold, setFlod] = useState(true)
-
+  let [spanHeight, setHeight] = useState(0)
   let answerCount = commenterInfo.filter(it => it.status !== 'delete')
 
   let writeAnswer = useCallback(() => {
@@ -94,20 +94,25 @@ function PostTitle(props) {
   }, [data])
 
   useEffect(() => {
-    let span = document.querySelector('.post-content span')
     let p = document.querySelector('.post-content')
-    if (span && span.offsetHeight >= 72) {
+    if (spanHeight >= 72) {
       p.style.height = '72px'
       upHide(true)
     }
-  }, [props.loading])
-
+  }, [spanHeight, props.loading])
+  useEffect(() => {
+    let postContent = document.querySelector('.post-content >span')
+    if (postContent && post.content) {
+      postContent.innerHTML = post.content[0] !== '{' ? post.content : JSON.parse(post.content).html
+      setHeight(postContent.getBoundingClientRect().height)
+    }
+  }, [post, props])
   let foldCutover = useCallback(() => {
     let p = document.querySelector('.post-content')
     let span = document.querySelector('.post-content span')
     if (fold) {
       p.style.display = 'block'
-      p.style.height = span.offsetHeight + 3 + 'px'
+      p.style.height = span.getBoundingClientRect().height + 3 + 'px'
       setFlod(false)
     } else {
       p.style.display = '-webkit-box'
@@ -134,7 +139,7 @@ function PostTitle(props) {
         <h1>{post.title}</h1>
       </Skeleton>
       <Skeleton active loading={props.loading} paragraph={{ rows: 2 }} round title={false}>
-        <p className="post-content"><span>{post.content}</span></p>
+        <p className="post-content"><span></span></p>
       </Skeleton >
       <div className="post-footer-list">
         <Attention data={data} />

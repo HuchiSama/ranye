@@ -172,6 +172,11 @@ function AnswerDynamic(props) {
   let time = (item.likeAt || item.createdAt) * 1
   let TIME = moment(time).endOf().fromNow(true) + '前'
   let POST_TIME = moment(item.createdAt * 1).endOf().fromNow(true) + '前'
+  let [footer, setFooter] = useState(false)
+
+  useEffect(() => {
+    getContent(item, idx, setFooter)
+  }, [item])
 
   return (
     <li key={item.likeAt || item.createdAt}>
@@ -193,14 +198,14 @@ function AnswerDynamic(props) {
         </div>
       </div>
       <div className="content-div" name="content">
-        <p><span>{item.content}</span></p>
+        <p><span>{getContentText(item)}</span></p>
         <span className="answerAt">发布于 &nbsp;
         {parseInt(POST_TIME) * 1 >= 1 && /天/g.test(POST_TIME) ?
             moment(item.createdAt * 1).format("YYYY-MM-DD HH:mm:ss")
             : POST_TIME
           }</span>
         <div className="commenter-footer">
-          <PostsFooter type={'comment'} comment={item} idx={idx} state={state} />
+          <PostsFooter type={'comment'} comment={item} idx={idx} state={state} footer={footer} />
         </div>
       </div>
     </li>
@@ -210,11 +215,16 @@ function AnswerDynamic(props) {
 function PostDynamic(props) {
   let idx = props.idx
   let state = props.state || {}
+  let [footer, setFooter] = useState(false)
 
   let item = props.item
   let time = (item.likeAt || item.createdAt) * 1
 
   let TIME = moment(time).endOf().fromNow(true) + '前'
+
+  useEffect(() => {
+    getContent(item, idx, setFooter)
+  }, [item])
 
   return (
     <li key={item.likeAt || item.createdAt}>
@@ -228,14 +238,13 @@ function PostDynamic(props) {
       <div className="content-div" name="content">
         <Link className="post-title" to={`/post-page/${item.postId}`}>{item.title}</Link>
         <p className="post-content">
-          <span>{item.content}</span>
+          <span>{getContentText(item)}</span>
         </p>
       </div>
-      <PostsFooter type={'question'} post={item} idx={idx} state={state} />
+      <PostsFooter type={'question'} post={item} idx={idx} state={state} footer={footer} />
     </li>
   )
 }
-
 
 function LikeDynamic(props) {
   let idx = props.idx
@@ -246,6 +255,11 @@ function LikeDynamic(props) {
   let time = (item.likeAt || item.createdAt) * 1
   let TIME = moment(time).endOf().fromNow(true) + '前'
   let POST_TIME = moment(item.createdAt * 1).endOf().fromNow(true) + '前'
+  let [footer, setFooter] = useState(false)
+
+  useEffect(() => {
+    getContent(item, idx, setFooter)
+  }, [item])
   return (
     <li key={item.likeAt || item.createdAt}>
       <div className="dynamicList-header"><span>赞同了回答</span><span>
@@ -265,7 +279,7 @@ function LikeDynamic(props) {
         </div>
       </div>
       <div className="content-div" name="content">
-        <p><span>{item.content}</span></p>
+        <p className="likeComment"><span >{getContentText(item)}</span></p>
         <span className="answerAt">发布于  &nbsp;
         {parseInt(POST_TIME) * 1 >= 1 && /天/g.test(POST_TIME) ?
             moment(item.createdAt * 1).format("YYYY-MM-DD HH:mm:ss")
@@ -273,7 +287,7 @@ function LikeDynamic(props) {
           }
         </span>
         <div className="commenter-footer">
-          <PostsFooter type={'comment'} comment={item} idx={idx} state={state} />
+          <PostsFooter type={'comment'} comment={item} idx={idx} state={state} footer={footer} />
         </div>
       </div>
     </li>
@@ -287,7 +301,11 @@ export function AttentionQuestion(props) {
   let item = props.item
   let time = (item.likeAt || item.createdAt) * 1
   let TIME = moment(time).endOf().fromNow(true) + '前'
+  let [footer, setFooter] = useState(false)
 
+  useEffect(() => {
+    getContent(item, idx, setFooter)
+  }, [item])
   return (
     <li key={item.likeAt || item.createdAt}>
       <div className="dynamicList-header"><span>关注了问题</span><span>
@@ -299,10 +317,10 @@ export function AttentionQuestion(props) {
       <div className="content-div" name="content">
         <Link className="post-title" to={`/post-page/${item.postId}`}>{item.title}</Link>
         <p className="post-content">
-          <span>{item.content}</span>
+          <span>{getContentText(item)}</span>
         </p>
       </div>
-      <PostsFooter type={'question'} post={item} idx={idx} state={state} />
+      <PostsFooter type={'question'} post={item} idx={idx} state={state} footer={footer} />
     </li>
   )
 }
@@ -322,5 +340,23 @@ function sortAtTime(array = []) {
 //   let org = 
 // }
 
+function getContentText(item) {
+  if (item.content) {
+    if (item.content[0] !== '{') {
+      return item.content
+    } else {
+      return JSON.parse(item.content).text
+    }
+  }
+  return
+}
 
+function getContent(item, idx, setFooter) {
 
+  let commentItem = document.querySelectorAll(".content-div > p > span")[idx]
+
+  if (commentItem && item.content[0] === '{') {
+    commentItem.innerHTML = JSON.parse(item.content).html
+    setFooter(true)
+  }
+}

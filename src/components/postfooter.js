@@ -147,6 +147,7 @@ function useSelectState(props) {
 }
 
 export default function PostsFooter(props) {
+  let { footer } = props
   let idx = props.idx
   let ques = props.type === 'question'
   let { post = {}, active, poorActive, toAttention, likeComment, poorButton, getCollect, collectActive, getFavorite, favoriteActive } = useSelectState(props)
@@ -154,26 +155,27 @@ export default function PostsFooter(props) {
   let [fold, setFold] = useState(true)  // 收起展开
   let [hide, setHide] = useState(false)  // 显示/隐藏按钮
   useEffect(() => {
-    let span = document.querySelectorAll('[name="content"] p span')
-    if (span[idx] && span[idx].offsetHeight > 50) {
-      let p = document.querySelectorAll('[name="content"] p')[idx]
+    let span = document.querySelectorAll('[name="content"]> p >span')
+    // if (span[idx]) console.log(span[idx].getBoundingClientRect().height)
+    if (span[idx] && span[idx].getBoundingClientRect().height > 50) {
+      let p = document.querySelectorAll('[name="content"] >p')[idx]
       p.classList.add('flodContent')
       p.style.height = ques ? '3.2em' : '2.68em'
       setHide(true)
     }
-  }, [idx, ques])
+  }, [idx, ques, footer])
 
   let foldContent = useCallback(() => {
-    let p = document.querySelectorAll('[name="content"] p')[idx]
+    let p = document.querySelectorAll('[name="content"] >p')[idx]
     let arr = Array.from(p.classList)
-    let span = document.querySelectorAll('[name="content"] p span')
+    let span = document.querySelectorAll('[name="content"] >p >span')
     if (!arr.includes('flodContent')) {
       p.classList.add('flodContent')
       p.style.height = ques ? '3.2em' : '2.68em'
       setFold(true)
     } else {
       p.classList.remove('flodContent')
-      p.style.height = span[idx].offsetHeight + 5 + "px"
+      p.style.height = span[idx].getBoundingClientRect().height + 5 + "px"
       setFold(false)
     }
   }, [idx])
@@ -189,7 +191,7 @@ export default function PostsFooter(props) {
         <button type="button" className={poorActive ? 'likeActive' : ''} onClick={poorButton}><CaretDownFilled />{ques ? ` 踩 ${post.poor}` : ` 反对 ${post.poor}`}</button>
         <ul>
           <li onClick={ansCommentflad}><MessageFilled /> {ques ? `${props.post.answerCount} 条回答` : ansComment ? '收起评论' : `${props.comment.ansComments} 条评论`}</li>
-          <li onClick={getCollect}><StarFilled />{collectActive ? '已收藏' : '收藏'} </li>
+          <li onClick={getCollect}><StarFilled />{collectActive ? '已收藏' : ' 收藏'} </li>
           <li onClick={getFavorite}><HeartFilled />{favoriteActive ? ' 已喜欢' : ' 喜欢'} </li>
         </ul>
         {hide && <>

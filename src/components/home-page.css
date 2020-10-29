@@ -625,14 +625,16 @@ button.likeActive:hover{
   -webkit-box-orient:vertical; 
   -webkit-line-clamp:2;
   overflow:hidden;
-  /* height: 52px; */
+
   text-overflow:ellipsis;
   transition: height 0.3s;
 }
 .posts li p.flodContent:hover span{
   color: #627799;
 }
-
+.post-defaultHeight{
+  height: 48px;
+}
 
 /**/
 .nav-message-icon{
@@ -836,9 +838,9 @@ li.nav-cares-item a span,.nav-chat-item >div span{
   border-top: 1px solid #e8e8e8;
   height: 350px;
 }
-.chat-footer{
-  /* padding: 20px 0; */
-}
+/* .chat-footer{
+  padding: 20px 0;
+} */
 .chat-edit textarea{
   resize: none;
 }
